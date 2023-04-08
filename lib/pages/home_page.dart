@@ -9,6 +9,23 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: const Text('Niran'),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: Row(
+              children: const [
+                Text(
+                  "#",
+                  style: TextStyle(color: Color(0xFFFF9900)),
+                ),
+                Text(
+                  "home",
+                  style: TextStyle(color: Color(0xFF87909A)),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
