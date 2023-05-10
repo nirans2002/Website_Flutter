@@ -12,10 +12,22 @@ class HomePage extends StatelessWidget {
       appBar: AdaptiveNavBar(
         screenWidth: screenWidth,
         elevation: 0,
-        title: const Text('Niran'),
+        title: Wrap(
+          children: [
+            Image.asset("assets/images/Union.svg"),
+            const Text(
+              'Niran',
+              style: TextStyle(
+                // fontFamily: "FiraCode",
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
         navBarItems: [
           NavBarItem(
-            text: "Home",
+            text: "home",
             onTap: () {
               Navigator.pushNamed(context, "routeName");
             },

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 // dark theme
 final darkTheme = ThemeData(
+  fontFamily: "FiraCode",
   colorScheme: const ColorScheme(
     brightness: Brightness.dark,
     primary: Color(0xFFFF9900),
