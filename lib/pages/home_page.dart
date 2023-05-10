@@ -57,14 +57,23 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > 600) {
-            return _buildWideContainers();
-          } else {
-            return _buildNormalContainer();
-          }
-        },
+      body: Row(
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          // NavigationRail(destinations: [],),
+          const SideRail(),
+          const Spacer(),
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth > 600) {
+                return _buildWideContainers();
+              } else {
+                return _buildNormalContainer();
+              }
+            },
+          ),
+          const Spacer(),
+        ],
       ),
     );
   }
@@ -88,16 +97,108 @@ class HomePage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
-            height: 100.0,
-            width: 100.0,
-            color: const Color(0xFF282C33),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
+                      text: const TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "I am ",
+                        style: TextStyle(
+                          fontSize: 32,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "web developer ",
+                        style: TextStyle(
+                          fontSize: 32,
+                          color: Colors.orange,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "and\n",
+                        style: TextStyle(
+                          fontSize: 32,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "front-end developer",
+                        style: TextStyle(
+                          fontSize: 32,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ],
+                  )),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(64.0),
+                  child: Text(
+                    "He crafts responsive websites where technologies \nmeet creativity",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          Container(
-            height: 100.0,
-            width: 100.0,
-            color: Colors.yellow,
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset("assets/images/sample_pic.png")),
+        ],
+      ),
+    );
+  }
+}
+
+class SideRail extends StatelessWidget {
+  const SideRail({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 6,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+              ),
+              // child: const Text(" "),
+            ),
           ),
+          IconButton(
+            onPressed: () {},
+            icon: Image.asset("assets/images/Github.png"),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Image.asset("assets/images/Github.png"),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Image.asset("assets/images/Github.png"),
+          ),
+          const Spacer(),
+          Image.asset("assets/images/dots.png"),
+          const Spacer(),
         ],
       ),
     );
