@@ -14,13 +14,19 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         title: Wrap(
           children: [
-            Image.asset("assets/images/Union.svg"),
-            const Text(
-              'Niran',
-              style: TextStyle(
-                // fontFamily: "FiraCode",
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset("assets/images/Union.png"),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Text(
+                'Niran',
+                style: TextStyle(
+                  // fontFamily: "FiraCode",
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
