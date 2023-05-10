@@ -23,7 +23,6 @@ class HomePage extends StatelessWidget {
               child: Text(
                 'Niran',
                 style: TextStyle(
-                  // fontFamily: "FiraCode",
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
