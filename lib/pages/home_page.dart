@@ -1,3 +1,4 @@
+import 'package:adaptive_navbar/adaptive_navbar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -5,26 +6,38 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(
+      appBar: AdaptiveNavBar(
+        screenWidth: screenWidth,
         elevation: 0,
         title: const Text('Niran'),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: Row(
-              children: const [
-                Text(
-                  "#",
-                  style: TextStyle(color: Color(0xFFFF9900)),
-                ),
-                Text(
-                  "home",
-                  style: TextStyle(color: Color(0xFF87909A)),
-                ),
-              ],
-            ),
-          )
+        navBarItems: [
+          NavBarItem(
+            text: "Home",
+            onTap: () {
+              Navigator.pushNamed(context, "routeName");
+            },
+          ),
+          NavBarItem(
+            text: "works",
+            onTap: () {
+              Navigator.pushNamed(context, "routeName");
+            },
+          ),
+          NavBarItem(
+            text: "about-me",
+            onTap: () {
+              Navigator.pushNamed(context, "routeName");
+            },
+          ),
+          NavBarItem(
+            text: "contacts",
+            onTap: () {
+              Navigator.pushNamed(context, "routeName");
+            },
+          ),
         ],
       ),
       body: LayoutBuilder(
