@@ -101,6 +101,7 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -142,7 +143,7 @@ class HomePage extends StatelessWidget {
                   )),
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(64.0),
+                  padding: EdgeInsets.symmetric(vertical: 64, horizontal: 8),
                   child: Text(
                     "He crafts responsive websites where technologies \nmeet creativity",
                     style: TextStyle(
@@ -151,6 +152,24 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                TextButton(
+                  onPressed: () {},
+                  child: Container(
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.orange)),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Contact me !!",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w100,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

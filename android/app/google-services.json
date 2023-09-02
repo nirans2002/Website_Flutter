@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "529630118134",
+    "project_id": "niransnarayanan-web",
+    "storage_bucket": "niransnarayanan-web.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529630118134:android:22ff58d3bb9bddaaa0acd7",
+        "android_client_info": {
+          "package_name": "com.example.niransnarayanan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529630118134-8epgn1t3t4a828jcqoe7u1cmiepmena3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAWkL1QVaPB5QV_K0ke5MjwltvBMnj9yU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529630118134-8epgn1t3t4a828jcqoe7u1cmiepmena3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
