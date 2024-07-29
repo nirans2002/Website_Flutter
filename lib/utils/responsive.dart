@@ -5,6 +5,8 @@ class Responsive {
   static const tabletScreenSizeLimit = 650;
   static const largeScreenSizeLimit = 1100;
 
+  static const double paddingScaleFactor = 1.0;
+
   /// mobile < 650
   static bool isMobile(BuildContext context) =>
       MediaQuery.of(context).size.width < 650;
