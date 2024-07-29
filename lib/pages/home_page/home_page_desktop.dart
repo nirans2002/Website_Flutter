@@ -7,6 +7,7 @@ import 'package:niransnarayanan/components/test_container.dart';
 import 'package:niransnarayanan/data/mydata.dart';
 import 'package:niransnarayanan/utils/responsive.dart';
 
+import '../../components/contact_info_item.dart';
 import '../../components/contact_me_button.dart';
 
 class HomePageDesktop extends StatelessWidget {
@@ -96,6 +97,10 @@ class ContactSection extends StatelessWidget {
                       icon: Icons.phone,
                       text: MyData.phoneNo,
                     ),
+                    ContactInfoItem(
+                      icon: FontAwesomeIcons.github,
+                      text: MyData.githubProfile,
+                    ),
                   ],
                 ),
               ),
@@ -104,34 +109,6 @@ class ContactSection extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class ContactInfoItem extends StatelessWidget {
-  const ContactInfoItem({
-    super.key,
-    required this.text,
-    required this.icon,
-  });
-
-  final String text;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextButton(
-        onPressed: () {},
-        onHover: null,
-        child: Row(
-          children: [
-            Icon(icon),
-            Text("  $text"),
-          ],
-        ),
-      ),
     );
   }
 }
