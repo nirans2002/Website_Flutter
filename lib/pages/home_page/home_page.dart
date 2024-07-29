@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     if (Responsive.isMobile(context)) {
       return HomePageMobile(context);
     } else if (Responsive.isDesktop(context)) {
-      return HomePageDesktop(context);
+      return const HomePageDesktop();
     } else {
       return HomePageTablet(context);
     }

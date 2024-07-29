@@ -1,11 +1,7 @@
 import 'package:adaptive_navbar/adaptive_navbar.dart';
 import 'package:flutter/material.dart';
 
-class CustomNavBar extends AppBar {
-  CustomNavBar({super.key});
-
-  // @override
-  Widget build(BuildContext context) {
+  PreferredSizeWidget? customNavBar(BuildContext context) {
     return AdaptiveNavBar(
       screenWidth: MediaQuery.of(context).size.width,
       elevation: 0,
@@ -55,4 +51,4 @@ class CustomNavBar extends AppBar {
       ],
     );
   }
-}
+

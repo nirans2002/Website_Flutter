@@ -12,7 +12,7 @@ class HomePageTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomNavBar(),
+      appBar: customNavBar(context),
       body: Row(
         children: [
           testContainer("Tablet main row 1", Colors.greenAccent, context),

@@ -12,7 +12,7 @@ class HomePageMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomNavBar(),
+      appBar: customNavBar(context),
       body: Row(
         children: [
           testContainer("Mobile main row 1", Colors.greenAccent, context),
