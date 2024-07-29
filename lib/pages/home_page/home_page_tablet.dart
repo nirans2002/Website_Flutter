@@ -15,8 +15,8 @@ class HomePageTablet extends StatelessWidget {
       appBar: customNavBar(context),
       body: Row(
         children: [
-          testContainer("Tablet main row 1", Colors.greenAccent, context),
-          testContainer("Tablet main row 2", Colors.green, context),
+          testContainer(
+              text: "Tablet view", color: Colors.blueGrey, context: context),
         ],
       ),
     );

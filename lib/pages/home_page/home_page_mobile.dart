@@ -15,8 +15,8 @@ class HomePageMobile extends StatelessWidget {
       appBar: customNavBar(context),
       body: Row(
         children: [
-          testContainer("Mobile main row 1", Colors.greenAccent, context),
-          testContainer("Mobile main row 2", Colors.green, context),
+          testContainer(
+              text: "Mobile view", color: Colors.blueAccent, context: context),
         ],
       ),
     );
