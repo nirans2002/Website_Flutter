@@ -144,11 +144,11 @@ class HeroSection extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: "web developer ",
+                      text: "Robotics Enthusiast ",
                       style: TextStyle(
                         fontSize: 32,
                         color: Colors.orange,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     TextSpan(
@@ -160,7 +160,7 @@ class HeroSection extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: "front-end developer",
+                      text: "Flutter Developer",
                       style: TextStyle(
                         fontSize: 32,
                         color: Colors.orange,
