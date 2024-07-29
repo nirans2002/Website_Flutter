@@ -12,8 +12,6 @@ final darkTheme = ThemeData(
     onSecondary: Color.fromARGB(255, 180, 54, 54),
     error: Colors.red,
     onError: Colors.black,
-    background: Color(0xFF282C33),
-    onBackground: Color(0xFF87909A),
     surface: Color(0xFF282C33),
     onSurface: Color(0xFFABB2BF),
   ),
