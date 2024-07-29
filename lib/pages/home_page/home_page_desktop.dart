@@ -42,7 +42,6 @@ class BodyWidget extends StatelessWidget {
           // ProjectSection(),
           ContactSection(),
           FooterSection(),
-          
         ],
       ),
     );
@@ -173,7 +172,7 @@ class HeroSection extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 64, horizontal: 8),
                 child: Text(
-                  "He crafts responsive websites where technologies \nmeet creativity",
+                  "crafts robots where technologies \nmeet creativity",
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.white,
