@@ -13,7 +13,8 @@ class SectionHeading extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(
         left: 128 * Responsive.paddingScaleFactor,
-        top: 8.0 * Responsive.paddingScaleFactor,
+        top: 32.0 * Responsive.paddingScaleFactor,
+        bottom: 16.0 * Responsive.paddingScaleFactor,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

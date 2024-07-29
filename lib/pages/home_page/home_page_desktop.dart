@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:niransnarayanan/components/custom_navbar.dart';
 import 'package:niransnarayanan/components/hero_photo.dart';
 import 'package:niransnarayanan/components/section_heading.dart';
 import 'package:niransnarayanan/components/test_container.dart';
+import 'package:niransnarayanan/data/mydata.dart';
 import 'package:niransnarayanan/utils/responsive.dart';
 
 import '../../components/contact_me_button.dart';
@@ -60,7 +62,7 @@ class ContactSection extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
               padding: EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
@@ -75,13 +77,61 @@ class ContactSection extends StatelessWidget {
             ),
             Padding(
               padding:
-                  const EdgeInsets.all(8.0 * Responsive.paddingScaleFactor),
-              child: testContainer(
-                  context: context, color: Colors.amber, text: "contact-2"),
+                  const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
+              child: Container(
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.white60)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ContactInfoItem(
+                      icon: Icons.email_outlined,
+                      text: MyData.email,
+                    ),
+                    ContactInfoItem(
+                      icon: FontAwesomeIcons.linkedinIn,
+                      text: MyData.linkedinProfile,
+                    ),
+                    ContactInfoItem(
+                      icon: Icons.phone,
+                      text: MyData.phoneNo,
+                    ),
+                  ],
+                ),
+              ),
             ),
+            // Spacer(),
           ],
         ),
       ],
+    );
+  }
+}
+
+class ContactInfoItem extends StatelessWidget {
+  const ContactInfoItem({
+    super.key,
+    required this.text,
+    required this.icon,
+  });
+
+  final String text;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextButton(
+        onPressed: () {},
+        onHover: null,
+        child: Row(
+          children: [
+            Icon(icon),
+            Text("  $text"),
+          ],
+        ),
+      ),
     );
   }
 }
