@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:niransnarayanan/components/custom_navbar.dart';
+import 'package:niransnarayanan/components/footer.dart';
 import 'package:niransnarayanan/components/hero_photo.dart';
 import 'package:niransnarayanan/components/section_heading.dart';
 import 'package:niransnarayanan/components/test_container.dart';
@@ -41,7 +42,8 @@ class BodyWidget extends StatelessWidget {
           // SkillsSection(),
           // ProjectSection(),
           ContactSection(),
-          // FooterSection(),
+          FooterSection(),
+          
         ],
       ),
     );
