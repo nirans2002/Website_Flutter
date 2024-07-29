@@ -5,9 +5,9 @@
 
 // Scaffold HomePageLarge(BuildContext context) {
 //     return Scaffold(
-//       appBar: CustomNavBar(),
+//       // appBar: CustomNavBar(),
 //       body: Row(
-//         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //         children: [
 //           // NavigationRail(destinations: [],),
 //           const SideRail(),

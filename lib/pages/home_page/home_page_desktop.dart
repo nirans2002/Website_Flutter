@@ -25,6 +25,7 @@ class BodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         testContainer("Desktop main row 1", Colors.greenAccent, context),
         testContainer("Desktop main row 2", Colors.green, context),
