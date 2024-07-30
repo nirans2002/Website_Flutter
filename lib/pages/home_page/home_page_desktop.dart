@@ -37,7 +37,7 @@ class BodyWidget extends StatelessWidget {
         children: [
           // sections
           HeroSection(),
-          // AboutSection(),
+          AboutMeSection(),
           // SkillsSection(),
           // ProjectSection(),
           ContactSection(),
@@ -105,6 +105,74 @@ class ContactSection extends StatelessWidget {
                 ),
               ),
             ),
+            // Spacer(),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class AboutMeSection extends StatelessWidget {
+  const AboutMeSection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeading(
+          text: "about-me",
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // left column
+            Padding(
+              padding:
+                  const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
+              child: Text(
+                MyData.aboutmeText,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w100,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            // right column
+            // Padding(
+            //   padding:
+            //       const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
+            //   child: Container(
+            //     decoration:
+            //         BoxDecoration(border: Border.all(color: Colors.white60)),
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         ContactInfoItem(
+            //           icon: Icons.email_outlined,
+            //           text: MyData.email,
+            //         ),
+            //         ContactInfoItem(
+            //           icon: FontAwesomeIcons.linkedinIn,
+            //           text: MyData.linkedinProfile,
+            //         ),
+            //         ContactInfoItem(
+            //           icon: Icons.phone,
+            //           text: MyData.phoneNo,
+            //         ),
+            //         ContactInfoItem(
+            //           icon: FontAwesomeIcons.github,
+            //           text: MyData.githubProfile,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             // Spacer(),
           ],
         ),
