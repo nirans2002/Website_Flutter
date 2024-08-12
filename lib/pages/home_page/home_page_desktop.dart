@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:niransnarayanan/components/custom_navbar.dart';
 import 'package:niransnarayanan/components/footer.dart';
@@ -38,7 +41,7 @@ class BodyWidget extends StatelessWidget {
           // sections
           HeroSection(),
           AboutMeSection(),
-          // SkillsSection(),
+          SkillsSection(),
           // ProjectSection(),
           ContactSection(),
           FooterSection(),
@@ -107,6 +110,33 @@ class ContactSection extends StatelessWidget {
             ),
             // Spacer(),
           ],
+        ),
+      ],
+    );
+  }
+}
+
+class SkillsSection extends StatelessWidget {
+  const SkillsSection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeading(
+          text: "skills",
+        ),
+        Padding(
+          padding: const EdgeInsets.all(32.0 * Responsive.paddingScaleFactor),
+          child: StaggeredGrid.count(
+            crossAxisCount: 4,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            children: items,
+          ),
         ),
       ],
     );
@@ -253,6 +283,43 @@ class HeroSection extends StatelessWidget {
         ),
         const HeroPhotoWidget(),
       ],
+    );
+  }
+}
+
+List<StaggeredGridTile> items = const [
+  StaggeredGridTile.count(
+    crossAxisCellCount: 2,
+    mainAxisCellCount: 2,
+    child: SkillItemTile(
+      text: 'test',
+    ),
+  ),
+  // Add more StaggeredGridTile entries here with different sizes and widgets
+];
+
+class SkillItemTile extends StatelessWidget {
+  const SkillItemTile({
+    super.key,
+    required this.text,
+    // required this.icon,
+  });
+
+  final String text;
+  // final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Row(
+          children: [
+            Icon(FontAwesomeIcons.trowelBricks),
+            Text("  $text"),
+          ],
+        ),
+      ),
     );
   }
 }

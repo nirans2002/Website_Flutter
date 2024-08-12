@@ -9,4 +9,19 @@ class MyData {
   static String githubUrl = 'https://github.com/nirans2002';
   static String aboutmeText =
       "hello I'am Niran S Narayanan \nElectrical & Electronics Engineering graduate.\nI build robots and Flutter Applications.\nInterested in IoT, Robotics, Microcontrollers, Machine learning and AI.\nEquipped with basic knowledge and actively learning ROS2, Python,\nDjango, C Programming, Dart, HTML, CSS. React, Arduino and Raspberry Pi.";
+
+  static List<String> skills = [
+    "Flutter",
+    "Robotics",
+    "Python",
+    "Dart",
+    "HTML",
+    "CSS",
+    "ROS2",
+    "ROS",
+    "Arduino",
+    "C Programming",
+    "Fusion 360",
+    "Programming",
+  ];
 }
