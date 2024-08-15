@@ -8,7 +8,6 @@ import 'package:niransnarayanan/components/project_item_tile.dart';
 import 'package:niransnarayanan/components/section_heading.dart';
 import 'package:niransnarayanan/components/skill_item_tile.dart';
 import 'package:niransnarayanan/data/mydata.dart';
-import 'package:niransnarayanan/utils/math_functions.dart';
 import 'package:niransnarayanan/utils/responsive.dart';
 
 import '../../components/contact_info_item.dart';
@@ -36,16 +35,16 @@ class BodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
       child: Column(
         children: [
           // sections
-          const HeroSection(),
-          const AboutMeSection(),
+          HeroSection(),
+          AboutMeSection(),
           SkillSection(),
           ProjectSection(),
-          const ContactSection(),
-          const FooterSection(),
+          ContactSection(),
+          FooterSection(),
         ],
       ),
     );

@@ -107,7 +107,7 @@ class ProjectItemTile extends StatelessWidget {
                   IconButton(
                     tooltip: "go to documentation",
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.my_library_books_outlined,
                       color: Colors.orange,
                     ),
