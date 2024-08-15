@@ -1,3 +1,5 @@
+import 'package:niransnarayanan/data/project.dart';
+
 class MyData {
   static String firstName = 'Niran';
   static String fullName = 'Niran S Narayanan';
@@ -23,5 +25,26 @@ class MyData {
     "C Programming",
     "Fusion 360",
     "Programming",
+  ];
+
+  static List<Project> projects = [
+    Project(
+      name: "Project A",
+      description: "Description for Project A",
+      githubRepo: "https://github.com/example/projectA",
+      liveLink: "https://example.com/projectA",
+      tags: ["flutter", "app"],
+      imgUrl: "https://example.com/projectA.png",
+      ytUrl: "https://youtube.com/projectA",
+      documentationUrl: "https://example.com/docs/projectA",
+    ),
+    Project(
+      name: "Project B",
+      description: "Description for Project B",
+    ),
+    Project(
+      name: "Project C",
+      description: "Description for Project B",
+    ),
   ];
 }
