@@ -27,7 +27,7 @@ class SkillItemTile extends StatelessWidget {
             child: Text(
               skill,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey,
               ),

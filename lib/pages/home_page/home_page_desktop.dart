@@ -42,7 +42,7 @@ class BodyWidget extends StatelessWidget {
           const HeroSection(),
           const AboutMeSection(),
           SkillSection(),
-          // ProjectSection(),
+          ProjectSection(),
           const ContactSection(),
           const FooterSection(),
         ],
@@ -276,6 +276,40 @@ class SkillSection extends StatelessWidget {
       children: [
         const SectionHeading(
           text: "my-skills",
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 200 * Responsive.paddingScaleFactor),
+          child: MasonryGridView.count(
+            crossAxisCount: 4,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: MyData.skills.length,
+            itemBuilder: (context, index) {
+              final skill = MyData.skills[index];
+              return SkillItemTile(skill: skill);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ProjectSection extends StatelessWidget {
+  const ProjectSection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeading(
+          text: "my-projects",
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
