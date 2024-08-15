@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:niransnarayanan/components/custom_navbar.dart';
 import 'package:niransnarayanan/components/footer.dart';
 import 'package:niransnarayanan/components/hero_photo.dart';
+import 'package:niransnarayanan/components/project_item_tile.dart';
 import 'package:niransnarayanan/components/section_heading.dart';
 import 'package:niransnarayanan/components/skill_item_tile.dart';
 import 'package:niransnarayanan/data/mydata.dart';
@@ -315,15 +316,15 @@ class ProjectSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               horizontal: 200 * Responsive.paddingScaleFactor),
           child: MasonryGridView.count(
-            crossAxisCount: 4,
+            crossAxisCount: 2,
             mainAxisSpacing: 4,
             crossAxisSpacing: 4,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: MyData.skills.length,
+            itemCount: MyData.projects.length,
             itemBuilder: (context, index) {
-              final skill = MyData.skills[index];
-              return SkillItemTile(skill: skill);
+              final project = MyData.projects[index];
+              return ProjectItemTile(project: project);
             },
           ),
         ),
