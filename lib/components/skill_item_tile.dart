@@ -26,6 +26,7 @@ class SkillItemTile extends StatelessWidget {
           child: Center(
             child: Text(
               skill,
+              maxLines: 1,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
