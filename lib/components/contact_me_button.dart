@@ -10,8 +10,7 @@ class ContactMeButton extends StatelessWidget {
     return TextButton(
       onPressed: () {},
       child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.orange)),
+        decoration: BoxDecoration(border: Border.all(color: Colors.orange)),
         child: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
@@ -19,7 +18,7 @@ class ContactMeButton extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w100,
-              color: Colors.white,
+              color: Colors.grey,
             ),
           ),
         ),

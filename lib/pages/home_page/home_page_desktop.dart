@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,7 +5,9 @@ import 'package:niransnarayanan/components/custom_navbar.dart';
 import 'package:niransnarayanan/components/footer.dart';
 import 'package:niransnarayanan/components/hero_photo.dart';
 import 'package:niransnarayanan/components/section_heading.dart';
+import 'package:niransnarayanan/components/skill_item_tile.dart';
 import 'package:niransnarayanan/data/mydata.dart';
+import 'package:niransnarayanan/utils/math_functions.dart';
 import 'package:niransnarayanan/utils/responsive.dart';
 
 import '../../components/contact_info_item.dart';
@@ -35,16 +35,16 @@ class BodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         children: [
           // sections
-          HeroSection(),
-          AboutMeSection(),
-          SkillsSection(),
+          const HeroSection(),
+          const AboutMeSection(),
+          SkillSection(),
           // ProjectSection(),
-          ContactSection(),
-          FooterSection(),
+          const ContactSection(),
+          const FooterSection(),
         ],
       ),
     );
@@ -116,33 +116,6 @@ class ContactSection extends StatelessWidget {
   }
 }
 
-class SkillsSection extends StatelessWidget {
-  const SkillsSection({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SectionHeading(
-          text: "skills",
-        ),
-        Padding(
-          padding: const EdgeInsets.all(32.0 * Responsive.paddingScaleFactor),
-          child: StaggeredGrid.count(
-            crossAxisCount: 4,
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 4,
-            children: items,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class AboutMeSection extends StatelessWidget {
   const AboutMeSection({
     super.key,
@@ -156,55 +129,59 @@ class AboutMeSection extends StatelessWidget {
         const SectionHeading(
           text: "about-me",
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // left column
-            Padding(
-              padding:
-                  const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
-              child: Text(
-                MyData.aboutmeText,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w100,
-                  color: Colors.grey,
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 200 * Responsive.paddingScaleFactor),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // left column
+              Padding(
+                padding:
+                    const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
+                child: Text(
+                  MyData.aboutmeText,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w100,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
-            ),
-            // right column
-            // Padding(
-            //   padding:
-            //       const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
-            //   child: Container(
-            //     decoration:
-            //         BoxDecoration(border: Border.all(color: Colors.white60)),
-            //     child: Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         ContactInfoItem(
-            //           icon: Icons.email_outlined,
-            //           text: MyData.email,
-            //         ),
-            //         ContactInfoItem(
-            //           icon: FontAwesomeIcons.linkedinIn,
-            //           text: MyData.linkedinProfile,
-            //         ),
-            //         ContactInfoItem(
-            //           icon: Icons.phone,
-            //           text: MyData.phoneNo,
-            //         ),
-            //         ContactInfoItem(
-            //           icon: FontAwesomeIcons.github,
-            //           text: MyData.githubProfile,
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            // Spacer(),
-          ],
+              // right column
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
+              //   child: Container(
+              //     decoration:
+              //         BoxDecoration(border: Border.all(color: Colors.white60)),
+              //     child: Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         ContactInfoItem(
+              //           icon: Icons.email_outlined,
+              //           text: MyData.email,
+              //         ),
+              //         ContactInfoItem(
+              //           icon: FontAwesomeIcons.linkedinIn,
+              //           text: MyData.linkedinProfile,
+              //         ),
+              //         ContactInfoItem(
+              //           icon: Icons.phone,
+              //           text: MyData.phoneNo,
+              //         ),
+              //         ContactInfoItem(
+              //           icon: FontAwesomeIcons.github,
+              //           text: MyData.githubProfile,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // Spacer(),
+            ],
+          ),
         ),
       ],
     );
@@ -237,7 +214,7 @@ class HeroSection extends StatelessWidget {
                       text: "I am ",
                       style: TextStyle(
                         fontSize: 32,
-                        color: Colors.white,
+                        color: Colors.grey,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -253,7 +230,7 @@ class HeroSection extends StatelessWidget {
                       text: "and\n",
                       style: TextStyle(
                         fontSize: 32,
-                        color: Colors.white,
+                        color: Colors.grey,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -273,7 +250,7 @@ class HeroSection extends StatelessWidget {
                   "crafts robots where technologies \nmeet creativity",
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.white,
+                    color: Colors.grey,
                   ),
                 ),
               ),
@@ -287,39 +264,36 @@ class HeroSection extends StatelessWidget {
   }
 }
 
-List<StaggeredGridTile> items = const [
-  StaggeredGridTile.count(
-    crossAxisCellCount: 2,
-    mainAxisCellCount: 2,
-    child: SkillItemTile(
-      text: 'test',
-    ),
-  ),
-  // Add more StaggeredGridTile entries here with different sizes and widgets
-];
-
-class SkillItemTile extends StatelessWidget {
-  const SkillItemTile({
+class SkillSection extends StatelessWidget {
+  const SkillSection({
     super.key,
-    required this.text,
-    // required this.icon,
   });
-
-  final String text;
-  // final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Row(
-          children: [
-            Icon(FontAwesomeIcons.trowelBricks),
-            Text("  $text"),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeading(
+          text: "my-skills",
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 200 * Responsive.paddingScaleFactor),
+          child: MasonryGridView.count(
+            crossAxisCount: 4,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: MyData.skills.length,
+            itemBuilder: (context, index) {
+              final skill = MyData.skills[index];
+              return SkillItemTile(skill: skill);
+            },
+          ),
+        ),
+      ],
     );
   }
 }
