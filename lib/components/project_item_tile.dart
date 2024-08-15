@@ -34,10 +34,25 @@ class ProjectItemTile extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
-              Container(
-                height: 1.0,
-                width: double.infinity,
-                color: Colors.orange,
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Container(
+                  height: 1.0,
+                  width: double.infinity,
+                  color: Colors.orange,
+                ),
+              ),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+              Text(
+                project.description,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w100,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),
