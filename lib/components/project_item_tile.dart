@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:niransnarayanan/data/project.dart';
 import 'package:niransnarayanan/utils/responsive.dart';
+import 'dart:html' as html;
 
 class ProjectItemTile extends StatelessWidget {
   const ProjectItemTile({
@@ -30,12 +31,11 @@ class ProjectItemTile extends StatelessWidget {
               Text(
                 project.name,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w500,
                   color: Colors.grey,
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Container(
@@ -44,9 +44,6 @@ class ProjectItemTile extends StatelessWidget {
                   color: Colors.orange,
                 ),
               ),
-              // const SizedBox(
-              //   height: 12,
-              // ),
               Text(
                 project.description,
                 style: const TextStyle(
@@ -54,6 +51,9 @@ class ProjectItemTile extends StatelessWidget {
                   fontWeight: FontWeight.w100,
                   color: Colors.grey,
                 ),
+              ),
+              const SizedBox(
+                height: 12,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -84,33 +84,23 @@ class ProjectItemTile extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  IconButton(
-                    tooltip: "Go to GitHub Repo",
-                    onPressed: () {},
-                    icon: const Icon(
-                      FontAwesomeIcons.github,
-                      color: Colors.orange,
-                    ),
+                  CustomIconButton(
+                    tooltipText: "GitHub Repo",
+                    link: project.githubRepo,
+                    icon: FontAwesomeIcons.github,
                   ),
-                  IconButton(
-                    tooltip: "See live project",
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.wb_cloudy_outlined,
-                      color: Colors.orange,
-                    ),
+                  CustomIconButton(
+                    tooltipText: "Live project",
+                    link: project.liveLink,
+                    icon: Icons.wb_cloudy_outlined,
                   ),
-                  IconButton(
-                    tooltip: "go to documentation",
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.my_library_books_outlined,
-                      color: Colors.orange,
-                    ),
+                  CustomIconButton(
+                    tooltipText: "Documentation",
+                    link: project.documentationUrl,
+                    icon: Icons.my_library_books_outlined,
                   ),
                 ],
               ),
@@ -118,6 +108,35 @@ class ProjectItemTile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomIconButton extends StatelessWidget {
+  const CustomIconButton({
+    super.key,
+    required this.tooltipText,
+    required this.link,
+    required this.icon,
+  });
+
+  final String tooltipText;
+  final String? link;
+  final IconData icon;
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: link != null ? tooltipText : "$tooltipText not available",
+      color: Colors.orange,
+      // hoverColor: Colors.transparent,
+      hoverColor: const Color.fromARGB(113, 61, 61, 61),
+      disabledColor: const Color.fromARGB(82, 158, 158, 158),
+      onPressed: link != null
+          ? () {
+              html.window.open(link!, 'new tab');
+            }
+          : null,
+      icon: Icon(icon),
     );
   }
 }
