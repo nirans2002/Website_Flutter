@@ -8,6 +8,8 @@ class Project {
     this.imgUrl,
     this.ytUrl,
     this.documentationUrl,
+    this.startDate,
+    this.endDate,
   });
 
   final String name;
@@ -18,4 +20,7 @@ class Project {
   final String? imgUrl;
   final String? ytUrl;
   final String? documentationUrl;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  // final List<Contributor> otherContributors;
 }

@@ -55,13 +55,16 @@ class ProjectItemTile extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
+              project.imgUrl != null
+                  ? Image.network(project.imgUrl!)
+                  : Container(),
+              // tags
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Wrap(
                   spacing: 8.0,
                   children: project.tags.map((tag) {
                     return Chip(
-                      // backgroundColor: Colors.orange,
                       padding: const EdgeInsets.all(4.0),
                       side: const BorderSide(color: Colors.grey, width: 0.5),
                       label: Text(
@@ -84,6 +87,8 @@ class ProjectItemTile extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
+
+              // buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
