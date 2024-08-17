@@ -10,6 +10,7 @@ class Project {
     this.documentationUrl,
     this.startDate,
     this.endDate,
+    this.otherContributors,
   });
 
   final String name;
@@ -22,5 +23,14 @@ class Project {
   final String? documentationUrl;
   final DateTime? startDate;
   final DateTime? endDate;
-  // final List<Contributor> otherContributors;
+  final List<Contributor>? otherContributors;
+}
+
+class Contributor {
+  final String name;
+  final String linkedinProfileLink;
+  Contributor({
+    required this.name,
+    required this.linkedinProfileLink,
+  });
 }

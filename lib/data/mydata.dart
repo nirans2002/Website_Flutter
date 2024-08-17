@@ -1,4 +1,6 @@
+import 'package:niransnarayanan/data/experience.dart';
 import 'package:niransnarayanan/data/project.dart';
+import 'package:niransnarayanan/pages/home_page/home_page_desktop.dart';
 
 class MyData {
   static String firstName = 'Niran';
@@ -85,6 +87,102 @@ class MyData {
       ytUrl: "",
       documentationUrl:
           "https://www.linkedin.com/in/niran-s-narayanan/details/projects/1721223349116/single-media-viewer/?type=DOCUMENT&profileId=ACoAADXWgKABSzwc8iBNn5b5h_RsnK6jADOjoBA",
+    ),
+  ];
+
+  static List<Experience> experienceList = [
+    Experience(
+      title: "Chairperson",
+      employmentType: "fullTime",
+      companyName: "INDIAN SOCIETY FOR TECHNICAL EDUCATION - CET",
+      companyImgUrl:
+          "https://media.licdn.com/dms/image/v2/D560BAQHu4sLIF2tm6w/company-logo_100_100/company-logo_100_100/0/1714468324728?e=1732147200&v=beta&t=rYzfrCOzvaqHrXYHLGr5xlPUyUZ2I8Gq9SjvfnKXRLw",
+      isCurrentlyWorking: true,
+      startdate: DateTime(2023, 10),
+      enddate: DateTime(2024, 6),
+    ),
+    Experience(
+      title: "Vice Chair",
+      employmentType: "fullTime",
+      companyName: "College of Engineering Trivandrum",
+      companyImgUrl: null,
+      isCurrentlyWorking: true,
+      startdate: DateTime(2022, 10),
+      enddate: DateTime(2023, 12),
+    ),
+    Experience(
+      title: "Project Coordinator",
+      employmentType: "fullTime",
+      companyName: "The Institution of Engineering and Technology",
+      companyImgUrl:
+          "https://media.licdn.com/dms/image/v2/D560BAQHu4sLIF2tm6w/company-logo_100_100/company-logo_100_100/0/1714468324728?e=1732147200&v=beta&t=rYzfrCOzvaqHrXYHLGr5xlPUyUZ2I8Gq9SjvfnKXRLw",
+      isCurrentlyWorking: true,
+      startdate: DateTime(2022, 11),
+      enddate: DateTime(2023, 11),
+    ),
+    Experience(
+      title: "Flutter Developer Intern",
+      employmentType: "internship",
+      companyName: "YE Stack",
+      companyImgUrl:
+          "https://media.licdn.com/dms/image/v2/D560BAQHu4sLIF2tm6w/company-logo_100_100/company-logo_100_100/0/1714468324728?e=1732147200&v=beta&t=rYzfrCOzvaqHrXYHLGr5xlPUyUZ2I8Gq9SjvfnKXRLw",
+      isCurrentlyWorking: false,
+      startdate: DateTime(2022, 8),
+      enddate: DateTime(2023, 4),
+    ),
+    Experience(
+      title: "Ninja Entrepreneur",
+      employmentType: "internship",
+      companyName: "Coding Ninjas",
+      companyImgUrl: null,
+      isCurrentlyWorking: false,
+      startdate: DateTime(2022, 2),
+      enddate: DateTime(2022, 10),
+    ),
+    Experience(
+      title: "Web Developer",
+      employmentType: "partTime",
+      companyName: "AstroCET",
+      companyImgUrl: null,
+      isCurrentlyWorking: false,
+      startdate: DateTime(2021, 12),
+      enddate: DateTime(2022, 6),
+    ),
+    Experience(
+      title: "Campus Ambassador",
+      employmentType: "internship",
+      companyName: "E-Cell, IIT Guwahati",
+      companyImgUrl: null,
+      isCurrentlyWorking: false,
+      startdate: DateTime(2021, 11),
+      enddate: DateTime(2022, 1),
+    ),
+    Experience(
+      title: "Project Lead",
+      employmentType: "fullTime",
+      companyName: "GDSC CET",
+      companyImgUrl: null,
+      isCurrentlyWorking: false,
+      startdate: DateTime(2022, 9),
+      enddate: DateTime(2023, 8),
+    ),
+    Experience(
+      title: "Co-Founder",
+      employmentType: "freelance",
+      companyName: "Neutrobix",
+      companyImgUrl: null,
+      isCurrentlyWorking: false,
+      startdate: DateTime(2022, 6),
+      enddate: DateTime(2023, 10),
+    ),
+    Experience(
+      title: "Webmaster",
+      employmentType: "fullTime",
+      companyName: "The Institution of Engineering and Technology",
+      companyImgUrl: null,
+      isCurrentlyWorking: false,
+      startdate: DateTime(2021, 11),
+      enddate: DateTime(2023, 1),
     ),
   ];
 }
