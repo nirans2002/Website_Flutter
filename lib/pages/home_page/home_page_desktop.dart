@@ -350,10 +350,7 @@ class ExperienceSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: 200 * Responsive.paddingScaleFactor),
-          child: MasonryGridView.count(
-            crossAxisCount: 1,
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 4,
+          child: ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: MyData.experienceList.length,
