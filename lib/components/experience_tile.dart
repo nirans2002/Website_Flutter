@@ -31,6 +31,7 @@ class ExperienceTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -70,6 +71,14 @@ class ExperienceTile extends StatelessWidget {
                     "${DateFormat.yMMM().format(experience.startdate!)} - $endDateText" +
                         " | " +
                         experience.employmentType!,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Text(
+                    experience.location,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,

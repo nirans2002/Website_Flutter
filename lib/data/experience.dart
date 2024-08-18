@@ -7,15 +7,17 @@ class Experience {
   final bool isCurrentlyWorking;
   final DateTime? startdate;
   final DateTime? enddate;
+  final String location;
 
   Experience({
     required this.title,
     required this.employmentType,
     required this.companyName,
-   this.companyImgUrl,
+    this.companyImgUrl,
     required this.isCurrentlyWorking,
     this.startdate,
     this.enddate,
+    required this.location,
   });
 }
 

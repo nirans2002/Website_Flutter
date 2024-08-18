@@ -100,6 +100,7 @@ class MyData {
       isCurrentlyWorking: true,
       startdate: DateTime(2023, 10),
       enddate: DateTime(2024, 6),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Vice Chair",
@@ -109,6 +110,7 @@ class MyData {
       isCurrentlyWorking: true,
       startdate: DateTime(2022, 10),
       enddate: DateTime(2023, 12),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Project Coordinator",
@@ -119,6 +121,7 @@ class MyData {
       isCurrentlyWorking: true,
       startdate: DateTime(2022, 11),
       enddate: DateTime(2023, 11),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Flutter Developer Intern",
@@ -129,6 +132,7 @@ class MyData {
       isCurrentlyWorking: false,
       startdate: DateTime(2022, 8),
       enddate: DateTime(2023, 4),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Ninja Entrepreneur",
@@ -138,6 +142,7 @@ class MyData {
       isCurrentlyWorking: false,
       startdate: DateTime(2022, 2),
       enddate: DateTime(2022, 10),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Web Developer",
@@ -147,6 +152,7 @@ class MyData {
       isCurrentlyWorking: false,
       startdate: DateTime(2021, 12),
       enddate: DateTime(2022, 6),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Campus Ambassador",
@@ -156,6 +162,7 @@ class MyData {
       isCurrentlyWorking: false,
       startdate: DateTime(2021, 11),
       enddate: DateTime(2022, 1),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Project Lead",
@@ -165,6 +172,7 @@ class MyData {
       isCurrentlyWorking: false,
       startdate: DateTime(2022, 9),
       enddate: DateTime(2023, 8),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Co-Founder",
@@ -174,6 +182,7 @@ class MyData {
       isCurrentlyWorking: false,
       startdate: DateTime(2022, 6),
       enddate: DateTime(2023, 10),
+      location: 'College of Engineering, Trivandrum',
     ),
     Experience(
       title: "Webmaster",
@@ -183,6 +192,7 @@ class MyData {
       isCurrentlyWorking: false,
       startdate: DateTime(2021, 11),
       enddate: DateTime(2023, 1),
+      location: 'College of Engineering, Trivandrum',
     ),
   ];
 }
