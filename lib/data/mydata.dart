@@ -1,6 +1,5 @@
 import 'package:niransnarayanan/data/experience.dart';
 import 'package:niransnarayanan/data/project.dart';
-import 'package:niransnarayanan/pages/home_page/home_page_desktop.dart';
 
 class MyData {
   static String firstName = 'Niran';

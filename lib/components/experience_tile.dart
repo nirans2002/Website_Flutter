@@ -34,7 +34,8 @@ class ExperienceTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding:
+                    const EdgeInsets.all(12.0 * Responsive.paddingScaleFactor),
                 child: CircleAvatar(
                   child: Image.network(experience.companyImgUrl != null
                       ? experience.companyImgUrl!
@@ -61,9 +62,10 @@ class ExperienceTile extends StatelessWidget {
                   // ),
                   Text(
                     experience.companyName,
+                    // overflow: TextOverflow.fade,
                     style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w200,
                       color: Colors.grey,
                     ),
                   ),
@@ -72,7 +74,7 @@ class ExperienceTile extends StatelessWidget {
                         " | " +
                         experience.employmentType!,
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey,
                     ),
@@ -80,7 +82,7 @@ class ExperienceTile extends StatelessWidget {
                   Text(
                     experience.location,
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey,
                     ),

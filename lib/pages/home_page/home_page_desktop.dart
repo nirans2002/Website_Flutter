@@ -24,13 +24,13 @@ class HomePageDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customNavBar(context),
-      body: const BodyWidget(),
+      body: const BodyDesktopWidget(),
     );
   }
 }
 
-class BodyWidget extends StatelessWidget {
-  const BodyWidget({
+class BodyDesktopWidget extends StatelessWidget {
+  const BodyDesktopWidget({
     super.key,
   });
 
