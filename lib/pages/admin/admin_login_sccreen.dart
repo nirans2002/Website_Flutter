@@ -24,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    _emailController.text = "nirans2002@gmail.com";
+    _passwordController.text = "Parvanam@28322";
     return Scaffold(
       body: Center(
         child: Padding(
@@ -32,9 +34,10 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  style: const TextStyle(color: Colors.white)),
+                controller: _emailController,
+                decoration: const InputDecoration(labelText: 'Email'),
+                style: const TextStyle(color: Colors.white),
+              ),
               TextField(
                 controller: _passwordController,
                 decoration: const InputDecoration(labelText: 'Password'),
