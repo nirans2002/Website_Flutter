@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:niransnarayanan/firebase/firebase_service_bkp.dart';
+import 'package:niransnarayanan/pages/admin/admin_login_sccreen.dart';
+import 'package:niransnarayanan/pages/admin/admin_page.dart';
 import 'package:niransnarayanan/utils/theme.dart';
+import 'package:provider/provider.dart';
 import 'pages/home_page/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -9,7 +13,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,9 +26,11 @@ class MyApp extends StatelessWidget {
       theme: darkTheme,
       // darkTheme: darkTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => const HomePage(),
+        // '/': (context) => const HomePage(),
+        '/login': (context) => LoginPage(),
+        '/dashboard': (context) => DashboardPage(),
       },
     );
   }

@@ -36,8 +36,7 @@ class MyData {
       githubRepo: "https://github.com/nirans2002/ros1-ugv.git",
       tags: ["ROS", "Robotics", "Fusion360", "Python"],
       liveLink: null,
-      imgUrl:
-          "https://media.licdn.com/dms/image/v2/D562DAQFQPHgabO-Ocw/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1689485756176?e=1724482800&v=beta&t=A0FFPzDGvy5IWqyuBJfUtGOxUlJkqx2VR-lN6s3OeGA",
+      imgUrl: "https://picsum.photos/200",
       ytUrl: null,
       documentationUrl: null,
       startDate: DateTime(2023, 04),
@@ -50,8 +49,7 @@ class MyData {
       githubRepo: "https://github.com/nirans2002/makri.git",
       tags: ["ROS", "Robotics", "Fusion360", "Python"],
       liveLink: null,
-      imgUrl:
-          "https://media.licdn.com/dms/image/v2/D562DAQHOJ6XUXWqFRg/profile-treasury-image-shrink_1920_1920/profile-treasury-image-shrink_1920_1920/0/1718425885078?e=1724490000&v=beta&t=nOpf1n6f3C4Y5Da5dL39Dgpe487S6m0DUbrUwPWzsy4",
+      imgUrl: "https://picsum.photos/200",
       ytUrl: null,
       documentationUrl: null,
       startDate: DateTime(2023, 06),
@@ -69,8 +67,7 @@ class MyData {
         "Proteus",
       ],
       liveLink: "https://nirans2002.github.io/",
-      imgUrl:
-          "https://media.licdn.com/dms/image/v2/D562DAQFg84T3hvyLEw/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1719858509776?e=1724490000&v=beta&t=FwWVi510u9lAX9jx9XMrjoVpQuTpkwEYZ0zWM8WoatI",
+      imgUrl: "https://picsum.photos/200",
       ytUrl: "https://www.youtube.com/watch?v=ZQ5J6oupduU",
       documentationUrl: null,
     ),
@@ -81,8 +78,7 @@ class MyData {
       githubRepo: "https://github.com/nirans2002/ESP32-IoT-Weather-Station",
       tags: ["ESP32", "Micro-python", "Micro-controller"],
       liveLink: "",
-      imgUrl:
-          "https://media.licdn.com/dms/image/v2/D562DAQHXu9xF9HnJtg/profile-treasury-image-shrink_1920_1920/profile-treasury-image-shrink_1920_1920/0/1723884863094?e=1724490000&v=beta&t=nGPeF04MiikqANYdwRkR4q1IMjifFvRFm_XCatP2axI",
+      imgUrl: "https://picsum.photos/200",
       ytUrl: "",
       documentationUrl:
           "https://www.linkedin.com/in/niran-s-narayanan/details/projects/1721223349116/single-media-viewer/?type=DOCUMENT&profileId=ACoAADXWgKABSzwc8iBNn5b5h_RsnK6jADOjoBA",
