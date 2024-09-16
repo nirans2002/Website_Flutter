@@ -240,63 +240,231 @@ class _DashboardPageState extends State<DashboardPage>
 
   // Dialog to add a new project
   void _showAddDialogProject() {
-    _clearForm(); // Clear form data for a fresh entry
+    _clearForm();
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add New Project'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // TextFields for project attributes
-              _buildTextField(_nameController, 'Project Name'),
-              _buildTextField(_descriptionController, 'Project Description'),
-              _buildTextField(_githubRepoController, 'GitHub Repo'),
-              _buildTextField(_liveLinkController, 'Live Link'),
-              _buildTextField(_imgUrlController, 'Image URL'),
-              _buildTextField(_ytUrlController, 'YouTube URL'),
-              _buildTextField(
-                  _documentationUrlController, 'Documentation Link'),
-              const SizedBox(height: 10),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text('Add New Project'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Project Name'),
+                ),
+                TextField(
+                  controller: _descriptionController,
+                  decoration:
+                      const InputDecoration(labelText: 'Project Description'),
+                ),
+                TextField(
+                  controller: _githubRepoController,
+                  decoration: const InputDecoration(labelText: 'GitHub Repo'),
+                ),
+                TextField(
+                  controller: _liveLinkController,
+                  decoration: const InputDecoration(labelText: 'Live Link'),
+                ),
+                TextField(
+                  controller: _imgUrlController,
+                  decoration: const InputDecoration(labelText: 'Image URL'),
+                ),
+                TextField(
+                  controller: _ytUrlController,
+                  decoration: const InputDecoration(labelText: 'YouTube Link'),
+                ),
+                TextField(
+                  controller: _documentationUrlController,
+                  decoration:
+                      const InputDecoration(labelText: 'Documentation Link'),
+                ),
 
-              // Date pickers for start and end date
-              _buildDatePicker(context, isStartDate: true),
-              _buildDatePicker(context, isStartDate: false),
+                // Date Pickers for Start and End Dates
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2100),
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              _startDate = picked;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            _startDate != null
+                                ? 'Start Date: ${_startDate.toString().split(' ')[0]}'
+                                : 'Select Start Date',
+                            style: const TextStyle(color: Colors.blue),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2100),
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              _endDate = picked;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            _endDate != null
+                                ? 'End Date: ${_endDate.toString().split(' ')[0]}'
+                                : 'Select End Date',
+                            style: const TextStyle(color: Colors.blue),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
-              const SizedBox(height: 10),
-              _buildTagsSection(),
-              const Divider(),
-              _buildContributorsSection(),
-            ],
+                // Tags Input and Display
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onSubmitted: (value) {
+                          setState(() {
+                            if (value.isNotEmpty) {
+                              _tags.add(value);
+                            }
+                          });
+                        },
+                        decoration: const InputDecoration(labelText: 'Add Tag'),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        setState(() {
+                          if (_nameController.text.isNotEmpty) {
+                            _tags.add(_nameController.text);
+                            _nameController.clear();
+                          }
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                Wrap(
+                  spacing: 6.0,
+                  children: _tags
+                      .map((tag) => Chip(
+                            label: Text(tag),
+                            deleteIcon: const Icon(Icons.close),
+                            onDeleted: () {
+                              setState(() {
+                                _tags.remove(tag);
+                              });
+                            },
+                          ))
+                      .toList(),
+                ),
+
+                // Contributors Input and Display
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _contributorNameController,
+                        decoration: const InputDecoration(
+                            labelText: 'Contributor Name'),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _contributorLinkedInController,
+                        decoration: const InputDecoration(
+                            labelText: 'LinkedIn Profile'),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        if (_contributorNameController.text.isNotEmpty &&
+                            _contributorLinkedInController.text.isNotEmpty) {
+                          setState(() {
+                            _otherContributors.add(Contributor(
+                              name: _contributorNameController.text,
+                              linkedinProfileLink:
+                                  _contributorLinkedInController.text,
+                            ));
+                            _contributorNameController.clear();
+                            _contributorLinkedInController.clear();
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                Column(
+                  children: _otherContributors.map((contributor) {
+                    return ListTile(
+                      title: Text(contributor.name),
+                      subtitle: Text(contributor.linkedinProfileLink),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            _otherContributors.remove(contributor);
+                          });
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Project newProject = Project(
+                  name: _nameController.text,
+                  description: _descriptionController.text,
+                  githubRepo: _githubRepoController.text,
+                  liveLink: _liveLinkController.text,
+                  tags: _tags,
+                  imgUrl: _imgUrlController.text,
+                  ytUrl: _ytUrlController.text,
+                  documentationUrl: _documentationUrlController.text,
+                  startDate: _startDate,
+                  endDate: _endDate,
+                  otherContributors: _otherContributors,
+                );
+                _firebaseMethods.addProject(newProject);
+                Navigator.pop(context);
+              },
+              child: const Text('Add'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Project newProject = Project(
-                name: _nameController.text,
-                description: _descriptionController.text,
-                githubRepo: _githubRepoController.text,
-                liveLink: _liveLinkController.text,
-                imgUrl: _imgUrlController.text,
-                ytUrl: _ytUrlController.text,
-                documentationUrl: _documentationUrlController.text,
-                tags: _tags,
-                startDate: _startDate,
-                endDate: _endDate,
-                otherContributors: _otherContributors,
-              );
-              _firebaseMethods.addProject(newProject);
-              Navigator.pop(context);
-            },
-            child: const Text('Add'),
-          ),
-        ],
       ),
     );
   }
@@ -327,68 +495,250 @@ class _DashboardPageState extends State<DashboardPage>
   }
 
 // Dialog to edit an existing project
-  // Dialog to edit an existing project
   void _showEditDialogProject(String projectId, Project project) {
-    _prepopulateForm(project); // Fill form with project data
-
+    _prepopulateForm(project);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Edit Project'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildTextField(_nameController, 'Project Name'),
-              _buildTextField(_descriptionController, 'Project Description'),
-              _buildTextField(_githubRepoController, 'GitHub Repo'),
-              _buildTextField(_liveLinkController, 'Live Link'),
-              _buildTextField(_imgUrlController, 'Image URL'),
-              _buildTextField(_ytUrlController, 'YouTube URL'),
-              _buildTextField(
-                  _documentationUrlController, 'Documentation Link'),
-              const SizedBox(height: 10),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text('Edit Project'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Project Name'),
+                ),
+                TextField(
+                  controller: _descriptionController,
+                  decoration:
+                      const InputDecoration(labelText: 'Project Description'),
+                ),
+                TextField(
+                  controller: _githubRepoController,
+                  decoration: const InputDecoration(labelText: 'GitHub Repo'),
+                ),
+                TextField(
+                  controller: _liveLinkController,
+                  decoration: const InputDecoration(labelText: 'Live Link'),
+                ),
+                TextField(
+                  controller: _imgUrlController,
+                  decoration: const InputDecoration(labelText: 'Image URL'),
+                ),
+                TextField(
+                  controller: _ytUrlController,
+                  decoration: const InputDecoration(labelText: 'YouTube Link'),
+                ),
+                TextField(
+                  controller: _documentationUrlController,
+                  decoration:
+                      const InputDecoration(labelText: 'Documentation Link'),
+                ),
 
-              // Date pickers for start and end date
-              _buildDatePicker(context, isStartDate: true),
-              _buildDatePicker(context, isStartDate: false),
+                // Date Pickers for Start and End Dates
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: _startDate ?? DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2100),
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              _startDate = picked;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            _startDate != null
+                                ? 'Start Date: ${_startDate.toString().split(' ')[0]}'
+                                : 'Select Start Date',
+                            style: const TextStyle(color: Colors.blue),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: _endDate ?? DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2100),
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              _endDate = picked;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            _endDate != null
+                                ? 'End Date: ${_endDate.toString().split(' ')[0]}'
+                                : 'Select End Date',
+                            style: const TextStyle(color: Colors.blue),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
-              const SizedBox(height: 10),
-              _buildTagsSection(),
-              const Divider(),
-              _buildContributorsSection(),
-            ],
+                // Tags Input and Display
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onSubmitted: (value) {
+                          setState(() {
+                            if (value.isNotEmpty) {
+                              _tags.add(value);
+                            }
+                          });
+                        },
+                        decoration: const InputDecoration(labelText: 'Add Tag'),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        setState(() {
+                          if (_nameController.text.isNotEmpty) {
+                            _tags.add(_nameController.text);
+                            _nameController.clear();
+                          }
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                Wrap(
+                  spacing: 6.0,
+                  children: _tags
+                      .map((tag) => Chip(
+                            label: Text(tag),
+                            deleteIcon: const Icon(Icons.close),
+                            onDeleted: () {
+                              setState(() {
+                                _tags.remove(tag);
+                              });
+                            },
+                          ))
+                      .toList(),
+                ),
+
+                // Contributors Input and Display
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _contributorNameController,
+                        decoration: const InputDecoration(
+                            labelText: 'Contributor Name'),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _contributorLinkedInController,
+                        decoration: const InputDecoration(
+                            labelText: 'LinkedIn Profile'),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        if (_contributorNameController.text.isNotEmpty &&
+                            _contributorLinkedInController.text.isNotEmpty) {
+                          setState(() {
+                            _otherContributors.add(Contributor(
+                              name: _contributorNameController.text,
+                              linkedinProfileLink:
+                                  _contributorLinkedInController.text,
+                            ));
+                            _contributorNameController.clear();
+                            _contributorLinkedInController.clear();
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                Column(
+                  children: _otherContributors.map((contributor) {
+                    return ListTile(
+                      title: Text(contributor.name),
+                      subtitle: Text(contributor.linkedinProfileLink),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            _otherContributors.remove(contributor);
+                          });
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Project updatedProject = Project(
+                  name: _nameController.text,
+                  description: _descriptionController.text,
+                  githubRepo: _githubRepoController.text,
+                  liveLink: _liveLinkController.text,
+                  tags: _tags,
+                  imgUrl: _imgUrlController.text,
+                  ytUrl: _ytUrlController.text,
+                  documentationUrl: _documentationUrlController.text,
+                  startDate: _startDate,
+                  endDate: _endDate,
+                  otherContributors: _otherContributors,
+                );
+                _firebaseMethods.editProject(projectId, updatedProject);
+                Navigator.pop(context);
+              },
+              child: const Text('Update'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Project updatedProject = Project(
-                name: _nameController.text,
-                description: _descriptionController.text,
-                githubRepo: _githubRepoController.text,
-                liveLink: _liveLinkController.text,
-                imgUrl: _imgUrlController.text,
-                ytUrl: _ytUrlController.text,
-                documentationUrl: _documentationUrlController.text,
-                tags: _tags,
-                startDate: _startDate,
-                endDate: _endDate,
-                otherContributors: _otherContributors,
-              );
-              _firebaseMethods.editProject(projectId, updatedProject);
-              Navigator.pop(context);
-            },
-            child: const Text('Save'),
-          ),
-        ],
       ),
     );
   }
+
+  // Dialog to edit an existing project
+//   void _prepopulateForm(Project project) {
+//   _nameController.text = project.name;
+//   _descriptionController.text = project.description;
+//   _githubRepoController.text = project.githubRepo;
+//   _liveLinkController.text = project.liveLink;
+//   _imgUrlController.text = project.imgUrl;
+//   _ytUrlController.text = project.ytUrl;
+//   _documentationUrlController.text = project.documentationUrl;
+//   _tags = List.from(project.tags);
+//   _startDate = project.startDate;
+//   _endDate = project.endDate;
+//   _otherContributors = List.from(project.otherContributors);
+// }
 
   Widget _buildTextField(TextEditingController controller, String label) {
     return TextField(
