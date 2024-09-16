@@ -4,6 +4,8 @@
         "ARGB",
         "cupertino",
         "Fira",
-        "mydata"
+        "firestore",
+        "mydata",
+        "startdate"
     ]
 }

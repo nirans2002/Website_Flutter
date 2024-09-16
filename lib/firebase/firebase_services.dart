@@ -22,3 +22,4 @@ class FirebaseMethodsProject {
     return FirebaseFirestore.instance.collection('projects').snapshots();
   }
 }
+

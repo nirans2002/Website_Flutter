@@ -70,9 +70,7 @@ class ExperienceTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${DateFormat.yMMM().format(experience.startdate!)} - $endDateText" +
-                        " | " +
-                        experience.employmentType!,
+                    "${DateFormat.yMMM().format(experience.startdate!)} - $endDateText | ${experience.employmentType!}",
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
