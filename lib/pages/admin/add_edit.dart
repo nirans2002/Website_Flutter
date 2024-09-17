@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:html' as html; // Import for web support
 import 'package:niransnarayanan/data/project.dart';
+import 'package:niransnarayanan/firebase/firebase_services.dart';
 
 class AddEditProjectScreen extends StatefulWidget {
   final Project? project;
@@ -22,7 +23,6 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
   final _descriptionController = TextEditingController();
   final _githubRepoController = TextEditingController();
   final _liveLinkController = TextEditingController();
-  final _imgUrlController = TextEditingController();
   final _ytUrlController = TextEditingController();
   final _documentationUrlController = TextEditingController();
   List<String> _tags = [];
@@ -31,6 +31,9 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
   List<Contributor> _contributors = [];
   Uint8List? _imageBytes;
   String? _imageUrl;
+
+  final _contributorNameController = TextEditingController();
+  final _contributorLinkController = TextEditingController();
 
   @override
   void initState() {
@@ -45,28 +48,21 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
     _descriptionController.text = project.description;
     _githubRepoController.text = project.githubRepo ?? '';
     _liveLinkController.text = project.liveLink ?? '';
-    _imgUrlController.text = project.imgUrl ?? '';
     _ytUrlController.text = project.ytUrl ?? '';
     _documentationUrlController.text = project.documentationUrl ?? '';
     _tags = List<String>.from(project.tags);
     _startDate = project.startDate;
     _endDate = project.endDate;
     _contributors = project.otherContributors ?? [];
+    _imageUrl = project.imgUrl; // Update image URL
   }
 
   Future<void> _uploadImage() async {
     if (_imageBytes != null) {
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('project_images')
-          .child(DateTime.now().toIso8601String());
-      final uploadTask = storageRef.putData(_imageBytes!);
-
-      final snapshot = await uploadTask.whenComplete(() {});
-      final downloadUrl = await snapshot.ref.getDownloadURL();
+      final downloadUrl =
+          await FirebaseMethodsProject().uploadImageToStorage(_imageBytes!);
       setState(() {
         _imageUrl = downloadUrl;
-        _imgUrlController.text = downloadUrl;
       });
     }
   }
@@ -79,11 +75,30 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
       setState(() {
         _imageBytes = bytes;
       });
-      await _uploadImage();
     }
   }
 
+  void _addContributor() {
+    final name = _contributorNameController.text;
+    final link = _contributorLinkController.text;
+
+    if (name.isNotEmpty && link.isNotEmpty) {
+      setState(() {
+        _contributors.add(Contributor(name: name, linkedinProfileLink: link));
+        _contributorNameController.clear();
+        _contributorLinkController.clear();
+      });
+    }
+  }
+
+  void _removeContributor(int index) {
+    setState(() {
+      _contributors.removeAt(index);
+    });
+  }
+
   void _saveProject() async {
+    await _uploadImage();
     final project = Project(
       name: _nameController.text,
       description: _descriptionController.text,
@@ -93,7 +108,7 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
       liveLink:
           _liveLinkController.text.isNotEmpty ? _liveLinkController.text : null,
       tags: _tags,
-      imgUrl: _imgUrlController.text.isNotEmpty ? _imgUrlController.text : null,
+      imgUrl: _imageUrl,
       ytUrl: _ytUrlController.text.isNotEmpty ? _ytUrlController.text : null,
       documentationUrl: _documentationUrlController.text.isNotEmpty
           ? _documentationUrlController.text
@@ -129,6 +144,7 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
                 controller: _nameController,
@@ -156,11 +172,6 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                 decoration:
                     const InputDecoration(labelText: 'Documentation URL'),
               ),
-              TextField(
-                controller: _imgUrlController,
-                decoration: const InputDecoration(labelText: 'Image URL'),
-                readOnly: true,
-              ),
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _selectImage,
@@ -169,8 +180,8 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               SizedBox(height: 10),
               _imageBytes != null
                   ? Image.memory(_imageBytes!, height: 100)
-                  : _imgUrlController.text.isNotEmpty
-                      ? Image.network(_imgUrlController.text, height: 100)
+                  : _imageUrl != null
+                      ? Image.network(_imageUrl!, height: 100)
                       : const Text('No image selected'),
               SizedBox(height: 10),
               Wrap(
@@ -187,30 +198,45 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                   });
                 },
               ),
+              SizedBox(height: 10),
+              Text('Contributors:'),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _contributors.map((contributor) {
+                  final index = _contributors.indexOf(contributor);
+                  return ListTile(
+                    title: Text(contributor.name),
+                    subtitle: Text(contributor.linkedinProfileLink),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () => _removeContributor(index),
+                    ),
+                  );
+                }).toList(),
+              ),
+              Row(
                 children: [
-                  const Text('Contributors:'),
-                  ..._contributors.map((contributor) => ListTile(
-                        title: Text(contributor.name),
-                        subtitle: Text(contributor.linkedinProfileLink),
-                      )),
+                  Expanded(
+                    child: TextField(
+                      controller: _contributorNameController,
+                      decoration:
+                          const InputDecoration(labelText: 'Contributor Name'),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      controller: _contributorLinkController,
+                      decoration: const InputDecoration(
+                          labelText: 'Contributor LinkedIn URL'),
+                    ),
+                  ),
                 ],
               ),
-              TextField(
-                decoration:
-                    const InputDecoration(labelText: 'Contributor Name'),
-                onSubmitted: (name) {
-                  // Add contributor logic
-                },
+              ElevatedButton(
+                onPressed: _addContributor,
+                child: const Text('Add Contributor'),
               ),
-              TextField(
-                decoration: const InputDecoration(
-                    labelText: 'Contributor LinkedIn URL'),
-                onSubmitted: (link) {
-                  // Add contributor logic
-                },
-              ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _saveProject,
                 child: Text(
