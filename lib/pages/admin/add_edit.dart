@@ -31,6 +31,7 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
   List<Contributor> _contributors = [];
   Uint8List? _imageBytes;
   String? _imageUrl;
+  bool _isLoading = false;
 
   final _contributorNameController = TextEditingController();
   final _contributorLinkController = TextEditingController();
@@ -41,6 +42,7 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
     if (widget.project != null) {
       _prepopulateForm(widget.project!);
     }
+    _isLoading = false;
   }
 
   void _prepopulateForm(Project project) {
@@ -58,6 +60,9 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
   }
 
   Future<void> _uploadImage() async {
+    setState(() {
+      _isLoading = true;
+    });
     if (_imageBytes != null) {
       final downloadUrl =
           await FirebaseMethodsProject().uploadImageToStorage(_imageBytes!);
@@ -130,12 +135,16 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
           .collection('projects')
           .add(project.toMap());
     }
+    setState(() {
+      _isLoading = false;
+    });
 
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    // debugPrint(widget.project?.imgUrl);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.project == null ? 'Add Project' : 'Edit Project'),
@@ -173,16 +182,19 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                     const InputDecoration(labelText: 'Documentation URL'),
               ),
               SizedBox(height: 10),
+              _imageBytes != null
+                  ? Image.memory(_imageBytes!, height: 100)
+                  : const Text('No image selected'),
+              SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _selectImage,
                 child: const Text('Select Image'),
               ),
-              SizedBox(height: 10),
-              _imageBytes != null
-                  ? Image.memory(_imageBytes!, height: 100)
-                  : _imageUrl != null
-                      ? Image.network(_imageUrl!, height: 100)
-                      : const Text('No image selected'),
+              widget.project != null
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(widget.project!.imgUrl!),
+                    )
+                  : const Text('No image'),
               SizedBox(height: 10),
               Wrap(
                 spacing: 8.0,
@@ -239,8 +251,11 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _saveProject,
-                child: Text(
-                    widget.project == null ? 'Add Project' : 'Update Project'),
+                child: _isLoading
+                    ? CircularProgressIndicator()
+                    : Text(widget.project == null
+                        ? 'Add Project'
+                        : 'Update Project'),
               ),
             ],
           ),

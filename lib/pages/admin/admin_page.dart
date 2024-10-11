@@ -20,14 +20,17 @@ class AdminPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AddEditProjectScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const AddEditProjectScreen()),
                 );
               },
               child: const Text('Add New Project'),
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('projects').snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('projects')
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -39,28 +42,45 @@ class AdminPage extends StatelessWidget {
                     return const Center(child: Text('No projects found'));
                   }
 
-                  final projects = snapshot.data!.docs.map((doc) => Project.fromFirestore(doc)).toList();
+                  final projects = snapshot.data!.docs
+                      .map((doc) => Project.fromFirestore(doc))
+                      .toList();
 
                   return ListView.builder(
                     itemCount: projects.length,
                     itemBuilder: (context, index) {
                       final project = projects[index];
-                      return ListTile(
-                        title: Text(project.name),
-                        subtitle: Text(project.description),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddEditProjectScreen(
-                                  project: project,
-                                  projectId: snapshot.data!.docs[index].id,
-                                ),
+                      final _fbImgUrl = project.imgUrl.toString();
+                      debugPrint(_fbImgUrl);
+                      return Card(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(project.name),
+                              subtitle: Text(project.description),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddEditProjectScreen(
+                                        project: project,
+                                        projectId:
+                                            snapshot.data!.docs[index].id,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
+                            ),
+                            (project.imgUrl != null &&
+                                    project.imgUrl!.isNotEmpty)
+                                ? Image.network(_fbImgUrl)
+                                // ? Image.network("https://picsum.photos/200")
+                                : const CircularProgressIndicator(),
+                          ],
                         ),
                       );
                     },
