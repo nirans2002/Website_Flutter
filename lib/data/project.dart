@@ -63,8 +63,8 @@ class Project {
 
 
 class Contributor {
-  final String name;
-  final String linkedinProfileLink;
+   String name;
+   String linkedinProfileLink;
 
   Contributor({
     required this.name,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:niransnarayanan/data/project.dart';
 import 'package:niransnarayanan/firebase/firebase_services.dart';
+import 'package:file_picker/file_picker.dart';
 
 class AddEditProjectScreen extends StatefulWidget {
   final Project? project;
@@ -25,8 +24,8 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
   String? _documentationUrl;
   DateTime? _startDate;
   DateTime? _endDate;
-  List<Contributor>? _contributors = [];
-  String? _imageFilePath; // Path for image file on Windows
+  List<Contributor> _contributors = [];
+  String? _imageFilePath;
 
   final FirestoreService _firestoreService = FirestoreService();
 
@@ -44,11 +43,10 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
       _documentationUrl = widget.project!.documentationUrl;
       _startDate = widget.project!.startDate;
       _endDate = widget.project!.endDate;
-      _contributors = widget.project!.otherContributors;
+      _contributors = widget.project!.otherContributors ?? [];
     }
   }
 
-  // Method to pick an image from the file picker
   Future<void> _pickImage() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
@@ -62,11 +60,22 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
     }
   }
 
-  // Method to upload the image and get the URL
   Future<void> _uploadImage() async {
     if (_imageFilePath != null) {
       _imgUrl = await _firestoreService.uploadImageToStorage(_imageFilePath!);
     }
+  }
+
+  void _addContributor() {
+    setState(() {
+      _contributors.add(Contributor(name: '', linkedinProfileLink: ''));
+    });
+  }
+
+  void _removeContributor(int index) {
+    setState(() {
+      _contributors.removeAt(index);
+    });
   }
 
   @override
@@ -122,38 +131,65 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                 },
               ),
               SizedBox(height: 20),
-              // Image Upload Section
               Text('Image:'),
               _imageFilePath == null && _imgUrl == null
                   ? Text('No Image Selected')
                   : _imageFilePath != null
-                      ? Text(
-                          'Selected File: $_imageFilePath') // Show image file path
-                      : Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Image.network(
-                            _imgUrl!,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                      ? Text('Selected File: $_imageFilePath')
+                      : Image.network(_imgUrl!),
               TextButton.icon(
                 icon: Icon(Icons.image),
                 label: Text('Pick Image'),
                 onPressed: _pickImage,
+              ),
+              SizedBox(height: 20),
+
+              // Contributors section
+              Text('Contributors:'),
+              ..._contributors.asMap().entries.map((entry) {
+                int index = entry.key;
+                Contributor contributor = entry.value;
+
+                return Column(
+                  key: ValueKey(contributor),
+                  children: [
+                    TextFormField(
+                      initialValue: contributor.name,
+                      decoration:
+                          InputDecoration(labelText: 'Contributor Name'),
+                      onChanged: (value) => contributor.name = value,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a contributor name';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      initialValue: contributor.linkedinProfileLink,
+                      decoration:
+                          InputDecoration(labelText: 'LinkedIn Profile Link'),
+                      onChanged: (value) =>
+                          contributor.linkedinProfileLink = value,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton.icon(
+                          icon: Icon(Icons.delete),
+                          label: Text('Remove'),
+                          onPressed: () => _removeContributor(index),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                );
+              }).toList(),
+              TextButton.icon(
+                icon: Icon(Icons.add),
+                label: Text('Add Contributor'),
+                onPressed: _addContributor,
               ),
               SizedBox(height: 20),
               ElevatedButton(
@@ -161,16 +197,15 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    await _uploadImage(); // Upload image before saving
+                    await _uploadImage();
 
                     Project project = Project(
-                      id: widget.project?.id, // Pass the document ID for update
                       name: _name!,
                       description: _description!,
                       githubRepo: _githubRepo,
                       liveLink: _liveLink,
                       tags: _tags,
-                      imgUrl: _imgUrl, // Save image URL to Firestore
+                      imgUrl: _imgUrl,
                       ytUrl: _ytUrl,
                       documentationUrl: _documentationUrl,
                       startDate: _startDate,
@@ -182,7 +217,7 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                       await _firestoreService.addProject(project);
                     } else {
                       await _firestoreService.updateProject(
-                          project.id!, project);
+                          widget.project!.id!, widget.project!);
                     }
                     Navigator.pop(context);
                   }
