@@ -6,7 +6,7 @@ import 'package:file_picker/file_picker.dart';
 class AddEditProjectScreen extends StatefulWidget {
   final Project? project;
 
-  AddEditProjectScreen({this.project});
+  const AddEditProjectScreen({super.key, this.project});
 
   @override
   _AddEditProjectScreenState createState() => _AddEditProjectScreenState();
@@ -112,7 +112,7 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
             children: [
               TextFormField(
                 initialValue: _name,
-                decoration: InputDecoration(labelText: 'Project Name'),
+                decoration: const InputDecoration(labelText: 'Project Name'),
                 onSaved: (value) => _name = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -123,7 +123,7 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               ),
               TextFormField(
                 initialValue: _description,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
                 onSaved: (value) => _description = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -134,53 +134,54 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               ),
               TextFormField(
                 initialValue: _githubRepo,
-                decoration: InputDecoration(labelText: 'GitHub Repository'),
+                decoration:
+                    const InputDecoration(labelText: 'GitHub Repository'),
                 onSaved: (value) => _githubRepo = value,
               ),
               TextFormField(
                 initialValue: _liveLink,
-                decoration: InputDecoration(labelText: 'Live Link'),
+                decoration: const InputDecoration(labelText: 'Live Link'),
                 onSaved: (value) => _liveLink = value,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Start Date and End Date pickers
               ListTile(
                 title: Text(
                     'Start Date: ${_startDate != null ? _startDate.toString().split(' ')[0] : 'Select Date'}'),
-                trailing: Icon(Icons.calendar_today),
+                trailing: const Icon(Icons.calendar_today),
                 onTap: () => _selectDate(context, true),
               ),
               ListTile(
                 title: Text(
                     'End Date: ${_endDate != null ? _endDate.toString().split(' ')[0] : 'Select Date'}'),
-                trailing: Icon(Icons.calendar_today),
+                trailing: const Icon(Icons.calendar_today),
                 onTap: () => _selectDate(context, false),
               ),
               TextFormField(
                 decoration:
-                    InputDecoration(labelText: 'Tags (comma separated)'),
+                    const InputDecoration(labelText: 'Tags (comma separated)'),
                 initialValue: _tags.join(', '),
                 onSaved: (value) {
                   _tags = value!.split(',').map((e) => e.trim()).toList();
                 },
               ),
-              SizedBox(height: 20),
-              Text('Image:'),
+              const SizedBox(height: 20),
+              const Text('Image:'),
               _imageFilePath == null && _imgUrl == null
-                  ? Text('No Image Selected')
+                  ? const Text('No Image Selected')
                   : _imageFilePath != null
                       ? Text('Selected File: $_imageFilePath')
                       : Image.network(_imgUrl!),
               TextButton.icon(
-                icon: Icon(Icons.image),
-                label: Text('Pick Image'),
+                icon: const Icon(Icons.image),
+                label: const Text('Pick Image'),
                 onPressed: _pickImage,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Contributors section
-              Text('Contributors:'),
+              const Text('Contributors:'),
               ..._contributors.asMap().entries.map((entry) {
                 int index = entry.key;
                 Contributor contributor = entry.value;
@@ -191,7 +192,7 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                     TextFormField(
                       initialValue: contributor.name,
                       decoration:
-                          InputDecoration(labelText: 'Contributor Name'),
+                          const InputDecoration(labelText: 'Contributor Name'),
                       onChanged: (value) => contributor.name = value,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -202,8 +203,8 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                     ),
                     TextFormField(
                       initialValue: contributor.linkedinProfileLink,
-                      decoration:
-                          InputDecoration(labelText: 'LinkedIn Profile Link'),
+                      decoration: const InputDecoration(
+                          labelText: 'LinkedIn Profile Link'),
                       onChanged: (value) =>
                           contributor.linkedinProfileLink = value,
                     ),
@@ -211,22 +212,22 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton.icon(
-                          icon: Icon(Icons.delete),
-                          label: Text('Remove'),
+                          icon: const Icon(Icons.delete),
+                          label: const Text('Remove'),
                           onPressed: () => _removeContributor(index),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 );
               }).toList(),
               TextButton.icon(
-                icon: Icon(Icons.add),
-                label: Text('Add Contributor'),
+                icon: const Icon(Icons.add),
+                label: const Text('Add Contributor'),
                 onPressed: _addContributor,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 child: Text(widget.project == null ? 'Add' : 'Update'),
                 onPressed: () async {

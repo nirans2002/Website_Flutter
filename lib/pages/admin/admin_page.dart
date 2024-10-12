@@ -1,12 +1,77 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:niransnarayanan/data/experience.dart';
 import 'package:niransnarayanan/data/project.dart';
+import 'package:niransnarayanan/data/skill.dart';
 import 'package:niransnarayanan/firebase/firebase_services.dart';
 import 'package:niransnarayanan/pages/admin/add_edit.dart';
-import 'package:image_network/image_network.dart';
+import 'package:niransnarayanan/pages/admin/add_exp.dart';
+import 'package:niransnarayanan/pages/admin/add_skill.dart';
 
 class AdminPage extends StatelessWidget {
+  const AdminPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Admin Page"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AdminPageProject(),
+                  ),
+                );
+              },
+              child: const Text(
+                "Projects Page",
+              ),
+            ),
+            ElevatedButton(
+              // AdminPageExperience
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AdminPageExperience(),
+                  ),
+                );
+              },
+              child: const Text(
+                "Experience Page",
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AdminPageSkill(),
+                  ),
+                );
+              },
+              child: const Text(
+                "Skills Page",
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AdminPageProject extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
+
+  AdminPageProject({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +88,7 @@ class AdminPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddEditProjectScreen()),
+                      builder: (context) => const AddEditProjectScreen()),
                 );
               },
               child: const Text('Add New Project'),
@@ -33,7 +98,7 @@ class AdminPage extends StatelessWidget {
                 stream: _firestoreService.getProjects(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                   final projects = snapshot.data!;
                   return ListView.builder(
@@ -55,21 +120,22 @@ class AdminPage extends StatelessWidget {
                                       image: DecorationImage(
                                           image: imageProvider,
                                           fit: BoxFit.cover,
-                                          colorFilter: ColorFilter.mode(
+                                          colorFilter: const ColorFilter.mode(
                                               Colors.red, BlendMode.colorBurn)),
                                     ),
                                   ),
                                   placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
+                                      const CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                      const Icon(Icons.error),
                                 ),
                               )
                             : Container(
                                 width: 50,
                                 height: 50,
                                 color: Colors.grey,
-                                child: Icon(Icons.image, color: Colors.white),
+                                child: const Icon(Icons.image,
+                                    color: Colors.white),
                               ),
                         trailing: PopupMenuButton<ListTileTitleAlignment>(
                           itemBuilder: (BuildContext context) =>
@@ -88,7 +154,7 @@ class AdminPage extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: Text('Edit')),
+                                  child: const Text('Edit')),
                             ),
                             PopupMenuItem<ListTileTitleAlignment>(
                               value: ListTileTitleAlignment.titleHeight,
@@ -98,7 +164,7 @@ class AdminPage extends StatelessWidget {
                                         .deleteProject(project.id!);
                                     // _firestoreService.getProjects();
                                   },
-                                  child: Text('Delete')),
+                                  child: const Text('Delete')),
                             ),
                           ],
                         ),
@@ -112,6 +178,158 @@ class AdminPage extends StatelessWidget {
                             ),
                           );
                         },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ----------------------------Experience------------------------------------
+
+class AdminPageExperience extends StatelessWidget {
+  final FirestoreService _firestoreService = FirestoreService();
+
+  AdminPageExperience({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Admin Page - Experience'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddEditExperienceScreen()),
+                );
+              },
+              child: const Text('Add New Experience'),
+            ),
+            Expanded(
+              child: StreamBuilder<List<Experience>>(
+                stream: _firestoreService.getExperience(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final experiences = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: experiences.length,
+                    itemBuilder: (context, index) {
+                      var experience = experiences[index];
+                      return ListTile(
+                        title: Text(experience.title),
+                        subtitle: Text(experience.employmentType!),
+                        trailing: PopupMenuButton<ListTileTitleAlignment>(
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<ListTileTitleAlignment>>[
+                            PopupMenuItem<ListTileTitleAlignment>(
+                              value: ListTileTitleAlignment.titleHeight,
+                              child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddEditExperienceScreen(
+                                          experience: experience,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('Edit')),
+                            ),
+                            PopupMenuItem<ListTileTitleAlignment>(
+                              value: ListTileTitleAlignment.titleHeight,
+                              child: TextButton(
+                                  onPressed: () {
+                                    _firestoreService
+                                        .deleteExperience(experience.id!);
+                                    // _firestoreService.getProjects();
+                                  },
+                                  child: const Text('Delete')),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ----------------------------Skill------------------------------------
+
+class AdminPageSkill extends StatelessWidget {
+  final FirestoreService _firestoreService = FirestoreService();
+
+  AdminPageSkill({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Admin Page - Skill'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddSkillScreen()),
+                );
+              },
+              child: const Text('Add New Skill'),
+            ),
+            Expanded(
+              child: StreamBuilder<List<Skill>>(
+                stream: _firestoreService.getSkill(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final skills = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: skills.length,
+                    itemBuilder: (context, index) {
+                      var skill = skills[index];
+                      return ListTile(
+                        title: Text(skill.skill),
+                        trailing: PopupMenuButton<ListTileTitleAlignment>(
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<ListTileTitleAlignment>>[
+                            PopupMenuItem<ListTileTitleAlignment>(
+                              value: ListTileTitleAlignment.titleHeight,
+                              child: TextButton(
+                                  onPressed: () {
+                                    _firestoreService.deleteSkill(skill.id!);
+                                  },
+                                  child: const Text('Delete')),
+                            ),
+                          ],
+                        ),
                       );
                     },
                   );
