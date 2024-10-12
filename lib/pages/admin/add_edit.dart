@@ -78,6 +78,26 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
     });
   }
 
+  Future<void> _selectDate(BuildContext context, bool isStartDate) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: isStartDate
+          ? (_startDate ?? DateTime.now())
+          : (_endDate ?? DateTime.now()),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != (isStartDate ? _startDate : _endDate)) {
+      setState(() {
+        if (isStartDate) {
+          _startDate = picked;
+        } else {
+          _endDate = picked;
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +141,21 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                 initialValue: _liveLink,
                 decoration: InputDecoration(labelText: 'Live Link'),
                 onSaved: (value) => _liveLink = value,
+              ),
+              SizedBox(height: 20),
+
+              // Start Date and End Date pickers
+              ListTile(
+                title: Text(
+                    'Start Date: ${_startDate != null ? _startDate.toString().split(' ')[0] : 'Select Date'}'),
+                trailing: Icon(Icons.calendar_today),
+                onTap: () => _selectDate(context, true),
+              ),
+              ListTile(
+                title: Text(
+                    'End Date: ${_endDate != null ? _endDate.toString().split(' ')[0] : 'Select Date'}'),
+                trailing: Icon(Icons.calendar_today),
+                onTap: () => _selectDate(context, false),
               ),
               TextFormField(
                 decoration:
