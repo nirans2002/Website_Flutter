@@ -1,10 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:niransnarayanan/pages/admin/add_edit.dart';
 import 'package:niransnarayanan/data/project.dart';
+import 'package:niransnarayanan/firebase/firebase_services.dart';
+import 'package:niransnarayanan/pages/admin/add_edit.dart';
+import 'package:image_network/image_network.dart';
 
 class AdminPage extends StatelessWidget {
-  const AdminPage({Key? key}) : super(key: key);
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -21,67 +23,95 @@ class AdminPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const AddEditProjectScreen()),
+                      builder: (context) => AddEditProjectScreen()),
                 );
               },
               child: const Text('Add New Project'),
             ),
             Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('projects')
-                    .snapshots(),
+              child: StreamBuilder<List<Project>>(
+                stream: _firestoreService.getProjects(),
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
                   }
-                  if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Center(child: Text('No projects found'));
-                  }
-
-                  final projects = snapshot.data!.docs
-                      .map((doc) => Project.fromFirestore(doc))
-                      .toList();
-
+                  final projects = snapshot.data!;
                   return ListView.builder(
                     itemCount: projects.length,
                     itemBuilder: (context, index) {
-                      final project = projects[index];
-                      final _fbImgUrl = project.imgUrl.toString();
-                      debugPrint(_fbImgUrl);
-                      return Card(
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Text(project.name),
-                              subtitle: Text(project.description),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          AddEditProjectScreen(
-                                        project: project,
-                                        projectId:
-                                            snapshot.data!.docs[index].id,
-                                      ),
+                      var project = projects[index];
+                      return ListTile(
+                        title: Text(project.name),
+                        subtitle: Text(project.description),
+                        leading: project.imgUrl != null
+                            ? SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: CachedNetworkImage(
+                                  imageUrl: project.imgUrl!,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.red, BlendMode.colorBurn)),
                                     ),
-                                  );
-                                },
+                                  ),
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
+                              )
+                            : Container(
+                                width: 50,
+                                height: 50,
+                                color: Colors.grey,
+                                child: Icon(Icons.image, color: Colors.white),
                               ),
+                        trailing: PopupMenuButton<ListTileTitleAlignment>(
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<ListTileTitleAlignment>>[
+                            PopupMenuItem<ListTileTitleAlignment>(
+                              value: ListTileTitleAlignment.titleHeight,
+                              child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddEditProjectScreen(
+                                          project: project,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Text('Edit')),
                             ),
-                            (project.imgUrl != null &&
-                                    project.imgUrl!.isNotEmpty)
-                                ? Image.network(_fbImgUrl)
-                                // ? Image.network("https://picsum.photos/200")
-                                : const CircularProgressIndicator(),
+                            PopupMenuItem<ListTileTitleAlignment>(
+                              value: ListTileTitleAlignment.titleHeight,
+                              child: TextButton(
+                                  onPressed: () {
+                                    _firestoreService
+                                        .deleteProject(project.id!);
+                                    // _firestoreService.getProjects();
+                                  },
+                                  child: Text('Delete')),
+                            ),
                           ],
                         ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddEditProjectScreen(
+                                project: project,
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   );

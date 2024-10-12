@@ -27,10 +27,11 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        // throw UnsupportedError(
+        //   'DefaultFirebaseOptions have not been configured for windows - '
+        //   'you can reconfigure this by running the FlutterFire CLI again.',
+        // );
+        return macos;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -67,7 +68,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '529630118134',
     projectId: 'niransnarayanan-web',
     storageBucket: 'niransnarayanan-web.appspot.com',
-    iosClientId: '529630118134-80slv7607vgcdgv6q4mou7aeggbjoa2f.apps.googleusercontent.com',
+    iosClientId:
+        '529630118134-80slv7607vgcdgv6q4mou7aeggbjoa2f.apps.googleusercontent.com',
     iosBundleId: 'com.example.niransnarayanan',
   );
 
@@ -77,7 +79,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '529630118134',
     projectId: 'niransnarayanan-web',
     storageBucket: 'niransnarayanan-web.appspot.com',
-    iosClientId: '529630118134-80slv7607vgcdgv6q4mou7aeggbjoa2f.apps.googleusercontent.com',
+    iosClientId:
+        '529630118134-80slv7607vgcdgv6q4mou7aeggbjoa2f.apps.googleusercontent.com',
     iosBundleId: 'com.example.niransnarayanan',
   );
 }
