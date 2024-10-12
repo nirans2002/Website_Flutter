@@ -23,17 +23,22 @@ class FooterSection extends StatelessWidget {
             )
           ],
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Developed by Niran S Narayanan",
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w100,
-              color: Colors.grey,
+          child: InkWell(
+            onLongPress: () {
+              Navigator.pushNamed(context, '/login');
+            },
+            child: Text(
+              "Developed by Niran S Narayanan",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w100,
+                color: Colors.grey,
+              ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
