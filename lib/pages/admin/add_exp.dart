@@ -7,7 +7,7 @@ import 'package:file_picker/file_picker.dart';
 class AddEditExperienceScreen extends StatefulWidget {
   final Experience? experience;
 
-  AddEditExperienceScreen({this.experience});
+  const AddEditExperienceScreen({super.key, this.experience});
 
   @override
   _AddEditExperienceScreenState createState() =>
@@ -100,7 +100,12 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
             children: [
               TextFormField(
                 initialValue: _title,
-                decoration: InputDecoration(labelText: 'Job Title'),
+                decoration: const InputDecoration(
+                  labelText: 'Job Title',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _title = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -111,17 +116,32 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
               ),
               TextFormField(
                 initialValue: _description,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _description = value,
               ),
               TextFormField(
                 initialValue: _employmentType,
-                decoration: InputDecoration(labelText: 'Employment Type'),
+                decoration: const InputDecoration(
+                  labelText: 'Employment Type',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _employmentType = value,
               ),
               TextFormField(
                 initialValue: _companyName,
-                decoration: InputDecoration(labelText: 'Company Name'),
+                decoration: const InputDecoration(
+                  labelText: 'Company Name',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _companyName = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -132,7 +152,12 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
               ),
               TextFormField(
                 initialValue: _location,
-                decoration: InputDecoration(labelText: 'Location'),
+                decoration: const InputDecoration(
+                  labelText: 'Location',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _location = value,
               ),
               Row(
@@ -145,35 +170,58 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
                       });
                     },
                   ),
-                  Text('Currently Working'),
+                  const Text('Currently Working'),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ListTile(
                 title: Text(
-                    'Start Date: ${_startdate != null ? _startdate.toString().split(' ')[0] : 'Select Date'}'),
-                trailing: Icon(Icons.calendar_today),
+                  'Start Date: ${_startdate != null ? _startdate.toString().split(' ')[0] : 'Select Date'}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: const Icon(Icons.calendar_today),
                 onTap: () => _selectDate(context, true),
               ),
               ListTile(
                 title: Text(
-                    'End Date: ${_enddate != null ? _enddate.toString().split(' ')[0] : 'Select Date'}'),
-                trailing: Icon(Icons.calendar_today),
+                  'End Date: ${_enddate != null ? _enddate.toString().split(' ')[0] : 'Select Date'}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: const Icon(Icons.calendar_today),
                 onTap: () => _selectDate(context, false),
               ),
-              SizedBox(height: 20),
-              Text('Company Logo:'),
+              const SizedBox(height: 20),
+              const Text('Company Logo:'),
               _imageFilePath == null && _companyImgUrl == null
-                  ? Text('No Image Selected')
+                  ? const Text(
+                      'No Image Selected',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
                   : _imageFilePath != null
-                      ? Text('Selected File: $_imageFilePath')
+                      ? Text(
+                          'Selected File: $_imageFilePath',
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        )
                       : Image.network(_companyImgUrl!),
               TextButton.icon(
-                icon: Icon(Icons.image),
-                label: Text('Pick Image'),
+                icon: const Icon(Icons.image),
+                label: const Text(
+                  'Pick Image',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onPressed: _pickImage,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 child: Text(widget.experience == null ? 'Add' : 'Update'),
                 onPressed: () async {

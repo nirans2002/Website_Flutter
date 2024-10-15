@@ -3,6 +3,8 @@ import 'package:niransnarayanan/data/skill.dart';
 import 'package:niransnarayanan/firebase/firebase_services.dart';
 
 class AddSkillScreen extends StatefulWidget {
+  const AddSkillScreen({super.key});
+
   @override
   _AddSkillScreenState createState() => _AddSkillScreenState();
 }
@@ -17,7 +19,7 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Skill'),
+        title: const Text('Add Skill'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -26,7 +28,8 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Skill'),
+                decoration: const InputDecoration(labelText: 'Skill',
+                labelStyle: TextStyle(color: Colors.white,),),
                 onSaved: (value) => _skill = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -35,9 +38,9 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
-                child: Text('Add Skill'),
+                child: const Text('Add Skill'),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();

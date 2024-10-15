@@ -300,7 +300,7 @@ class ProjectSection extends StatelessWidget {
               stream: _firestoreService.getProjects(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return const projectShimmer();
+                  return const ProjectShimmer();
                 }
                 final projects = snapshot.data!;
                 return MasonryGridView.count(

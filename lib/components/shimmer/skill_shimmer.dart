@@ -9,8 +9,8 @@ class SkillShimmer extends StatelessWidget {
   }
 }
 
-class projectShimmer extends StatelessWidget {
-  const projectShimmer({super.key});
+class ProjectShimmer extends StatelessWidget {
+  const ProjectShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

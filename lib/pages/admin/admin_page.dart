@@ -163,6 +163,7 @@ class AdminPageProject extends StatelessWidget {
                                     _firestoreService
                                         .deleteProject(project.id!);
                                     // _firestoreService.getProjects();
+                                    Navigator.pop(context);
                                   },
                                   child: const Text('Delete')),
                             ),
@@ -213,7 +214,7 @@ class AdminPageExperience extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddEditExperienceScreen()),
+                      builder: (context) => const AddEditExperienceScreen()),
                 );
               },
               child: const Text('Add New Experience'),
@@ -259,6 +260,7 @@ class AdminPageExperience extends StatelessWidget {
                                     _firestoreService
                                         .deleteExperience(experience.id!);
                                     // _firestoreService.getProjects();
+                                    Navigator.pop(context);
                                   },
                                   child: const Text('Delete')),
                             ),
@@ -298,7 +300,7 @@ class AdminPageSkill extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AddSkillScreen()),
+                  MaterialPageRoute(builder: (context) => const AddSkillScreen()),
                 );
               },
               child: const Text('Add New Skill'),
@@ -325,6 +327,7 @@ class AdminPageSkill extends StatelessWidget {
                               child: TextButton(
                                   onPressed: () {
                                     _firestoreService.deleteSkill(skill.id!);
+                                    Navigator.pop(context);
                                   },
                                   child: const Text('Delete')),
                             ),
@@ -342,3 +345,5 @@ class AdminPageSkill extends StatelessWidget {
     );
   }
 }
+
+

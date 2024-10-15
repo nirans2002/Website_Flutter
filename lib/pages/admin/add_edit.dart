@@ -112,7 +112,12 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
             children: [
               TextFormField(
                 initialValue: _name,
-                decoration: const InputDecoration(labelText: 'Project Name'),
+                decoration: const InputDecoration(
+                  labelText: 'Project Name',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _name = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -123,7 +128,12 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               ),
               TextFormField(
                 initialValue: _description,
-                decoration: const InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _description = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -134,13 +144,22 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               ),
               TextFormField(
                 initialValue: _githubRepo,
-                decoration:
-                    const InputDecoration(labelText: 'GitHub Repository'),
+                decoration: const InputDecoration(
+                  labelText: 'GitHub Repository',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _githubRepo = value,
               ),
               TextFormField(
                 initialValue: _liveLink,
-                decoration: const InputDecoration(labelText: 'Live Link'),
+                decoration: const InputDecoration(
+                  labelText: 'Live Link',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _liveLink = value,
               ),
               const SizedBox(height: 20),
@@ -148,19 +167,31 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               // Start Date and End Date pickers
               ListTile(
                 title: Text(
-                    'Start Date: ${_startDate != null ? _startDate.toString().split(' ')[0] : 'Select Date'}'),
+                  'Start Date: ${_startDate != null ? _startDate.toString().split(' ')[0] : 'Select Date'}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 trailing: const Icon(Icons.calendar_today),
                 onTap: () => _selectDate(context, true),
               ),
               ListTile(
                 title: Text(
-                    'End Date: ${_endDate != null ? _endDate.toString().split(' ')[0] : 'Select Date'}'),
+                  'End Date: ${_endDate != null ? _endDate.toString().split(' ')[0] : 'Select Date'}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 trailing: const Icon(Icons.calendar_today),
                 onTap: () => _selectDate(context, false),
               ),
               TextFormField(
-                decoration:
-                    const InputDecoration(labelText: 'Tags (comma separated)'),
+                decoration: const InputDecoration(
+                  labelText: 'Tags (comma separated)',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 initialValue: _tags.join(', '),
                 onSaved: (value) {
                   _tags = value!.split(',').map((e) => e.trim()).toList();
@@ -169,9 +200,19 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               const SizedBox(height: 20),
               const Text('Image:'),
               _imageFilePath == null && _imgUrl == null
-                  ? const Text('No Image Selected')
+                  ? const Text(
+                      'No Image Selected',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
                   : _imageFilePath != null
-                      ? Text('Selected File: $_imageFilePath')
+                      ? Text(
+                          'Selected File: $_imageFilePath',
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        )
                       : Image.network(_imgUrl!),
               TextButton.icon(
                 icon: const Icon(Icons.image),
@@ -191,8 +232,12 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                   children: [
                     TextFormField(
                       initialValue: contributor.name,
-                      decoration:
-                          const InputDecoration(labelText: 'Contributor Name'),
+                      decoration: const InputDecoration(
+                        labelText: 'Contributor Name',
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                       onChanged: (value) => contributor.name = value,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -204,7 +249,11 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                     TextFormField(
                       initialValue: contributor.linkedinProfileLink,
                       decoration: const InputDecoration(
-                          labelText: 'LinkedIn Profile Link'),
+                        labelText: 'LinkedIn Profile Link',
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                       onChanged: (value) =>
                           contributor.linkedinProfileLink = value,
                     ),
