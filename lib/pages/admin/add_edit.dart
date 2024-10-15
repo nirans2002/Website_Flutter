@@ -114,10 +114,10 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                 initialValue: _name,
                 decoration: const InputDecoration(
                   labelText: 'Project Name',
-                  labelStyle: TextStyle(
+                  ),style: const TextStyle(
                     color: Colors.white,
                   ),
-                ),
+               
                 onSaved: (value) => _name = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -130,10 +130,10 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                 initialValue: _description,
                 decoration: const InputDecoration(
                   labelText: 'Description',
-                  labelStyle: TextStyle(
+                  ),style: const TextStyle(
                     color: Colors.white,
                   ),
-                ),
+               
                 onSaved: (value) => _description = value,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -146,20 +146,20 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                 initialValue: _githubRepo,
                 decoration: const InputDecoration(
                   labelText: 'GitHub Repository',
-                  labelStyle: TextStyle(
+                  ),style: const TextStyle(
                     color: Colors.white,
                   ),
-                ),
+               
                 onSaved: (value) => _githubRepo = value,
               ),
               TextFormField(
                 initialValue: _liveLink,
                 decoration: const InputDecoration(
                   labelText: 'Live Link',
-                  labelStyle: TextStyle(
+                  ),style: const TextStyle(
                     color: Colors.white,
                   ),
-                ),
+               
                 onSaved: (value) => _liveLink = value,
               ),
               const SizedBox(height: 20),
@@ -188,10 +188,10 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Tags (comma separated)',
-                  labelStyle: TextStyle(
+                  ),style: const TextStyle(
                     color: Colors.white,
                   ),
-                ),
+               
                 initialValue: _tags.join(', '),
                 onSaved: (value) {
                   _tags = value!.split(',').map((e) => e.trim()).toList();

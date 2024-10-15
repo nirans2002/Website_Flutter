@@ -28,8 +28,15 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
           child: Column(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Skill',
-                labelStyle: TextStyle(color: Colors.white,),),
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Skill',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onSaved: (value) => _skill = value,
                 validator: (value) {
                   if (value!.isEmpty) {

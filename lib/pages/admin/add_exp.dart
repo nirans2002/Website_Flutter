@@ -102,9 +102,9 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
                 initialValue: _title,
                 decoration: const InputDecoration(
                   labelText: 'Job Title',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
+                ),
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
                 onSaved: (value) => _title = value,
                 validator: (value) {
@@ -118,9 +118,9 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
                 initialValue: _description,
                 decoration: const InputDecoration(
                   labelText: 'Description',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
+                ),
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
                 onSaved: (value) => _description = value,
               ),
@@ -128,9 +128,9 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
                 initialValue: _employmentType,
                 decoration: const InputDecoration(
                   labelText: 'Employment Type',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
+                ),
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
                 onSaved: (value) => _employmentType = value,
               ),
@@ -138,9 +138,9 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
                 initialValue: _companyName,
                 decoration: const InputDecoration(
                   labelText: 'Company Name',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
+                ),
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
                 onSaved: (value) => _companyName = value,
                 validator: (value) {
@@ -154,9 +154,9 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
                 initialValue: _location,
                 decoration: const InputDecoration(
                   labelText: 'Location',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
+                ),
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
                 onSaved: (value) => _location = value,
               ),
@@ -170,7 +170,12 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
                       });
                     },
                   ),
-                  const Text('Currently Working'),
+                  const Text(
+                    'Currently Working',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
