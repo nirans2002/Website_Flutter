@@ -3,7 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:niransnarayanan/data/project.dart';
 import 'package:niransnarayanan/utils/responsive.dart';
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+
+// import 'dart:html' as html;
+
+import 'package:url_launcher/url_launcher.dart';
 
 class ProjectItemTile extends StatelessWidget {
   const ProjectItemTile({
@@ -139,7 +142,8 @@ class CustomIconButton extends StatelessWidget {
       disabledColor: const Color.fromARGB(82, 158, 158, 158),
       onPressed: link != null
           ? () {
-              html.window.open(link!, 'new tab');
+              // html.window.open(link!, 'new tab');
+              launchUrl(Uri.parse(link!));
             }
           : null,
       icon: Icon(icon),

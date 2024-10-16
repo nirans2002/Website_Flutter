@@ -1,99 +1,74 @@
-import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:html' as html; // Import for web support
 import 'package:niransnarayanan/data/project.dart';
 import 'package:niransnarayanan/firebase/firebase_services.dart';
+import 'package:file_picker/file_picker.dart';
 
 class AddEditProjectScreen extends StatefulWidget {
+  const AddEditProjectScreen({super.key, this.project});
   final Project? project;
-  final String? projectId;
-
-  const AddEditProjectScreen({Key? key, this.project, this.projectId})
-      : super(key: key);
 
   @override
-  _AddEditProjectScreenState createState() => _AddEditProjectScreenState();
+  State<AddEditProjectScreen> createState() => _AddEditProjectScreenState();
 }
 
 class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
-  final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _githubRepoController = TextEditingController();
-  final _liveLinkController = TextEditingController();
-  final _ytUrlController = TextEditingController();
-  final _documentationUrlController = TextEditingController();
+final _formKey = GlobalKey<FormState>();
+  String? _name;
+  String? _description;
+  String? _githubRepo;
+  String? _liveLink;
   List<String> _tags = [];
+  String? _imgUrl;
+  String? _ytUrl;
+  String? _documentationUrl;
   DateTime? _startDate;
   DateTime? _endDate;
   List<Contributor> _contributors = [];
-  Uint8List? _imageBytes;
-  String? _imageUrl;
-  bool _isLoading = false;
+  String? _imageFilePath;
 
-  final _contributorNameController = TextEditingController();
-  final _contributorLinkController = TextEditingController();
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   void initState() {
     super.initState();
     if (widget.project != null) {
-      _prepopulateForm(widget.project!);
+      _name = widget.project!.name;
+      _description = widget.project!.description;
+      _githubRepo = widget.project!.githubRepo;
+      _liveLink = widget.project!.liveLink;
+      _tags = List<String>.from(widget.project!.tags);
+      _imgUrl = widget.project!.imgUrl;
+      _ytUrl = widget.project!.ytUrl;
+      _documentationUrl = widget.project!.documentationUrl;
+      _startDate = widget.project!.startDate;
+      _endDate = widget.project!.endDate;
+      _contributors = widget.project!.otherContributors ?? [];
     }
-    _isLoading = false;
   }
 
-  void _prepopulateForm(Project project) {
-    _nameController.text = project.name;
-    _descriptionController.text = project.description;
-    _githubRepoController.text = project.githubRepo ?? '';
-    _liveLinkController.text = project.liveLink ?? '';
-    _ytUrlController.text = project.ytUrl ?? '';
-    _documentationUrlController.text = project.documentationUrl ?? '';
-    _tags = List<String>.from(project.tags);
-    _startDate = project.startDate;
-    _endDate = project.endDate;
-    _contributors = project.otherContributors ?? [];
-    _imageUrl = project.imgUrl; // Update image URL
+  Future<void> _pickImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      setState(() {
+        _imageFilePath = result.files.single.path!;
+      });
+    }
   }
 
   Future<void> _uploadImage() async {
-    setState(() {
-      _isLoading = true;
-    });
-    if (_imageBytes != null) {
-      final downloadUrl =
-          await FirebaseMethodsProject().uploadImageToStorage(_imageBytes!);
-      setState(() {
-        _imageUrl = downloadUrl;
-      });
-    }
-  }
-
-  void _selectImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final bytes = await pickedFile.readAsBytes();
-      setState(() {
-        _imageBytes = bytes;
-      });
+    if (_imageFilePath != null) {
+      _imgUrl = await _firestoreService.uploadImageToStorage(_imageFilePath!);
     }
   }
 
   void _addContributor() {
-    final name = _contributorNameController.text;
-    final link = _contributorLinkController.text;
-
-    if (name.isNotEmpty && link.isNotEmpty) {
-      setState(() {
-        _contributors.add(Contributor(name: name, linkedinProfileLink: link));
-        _contributorNameController.clear();
-        _contributorLinkController.clear();
-      });
-    }
+    setState(() {
+      _contributors.add(Contributor(name: '', linkedinProfileLink: ''));
+    });
   }
 
   void _removeContributor(int index) {
@@ -102,160 +77,237 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
     });
   }
 
-  void _saveProject() async {
-    await _uploadImage();
-    final project = Project(
-      name: _nameController.text,
-      description: _descriptionController.text,
-      githubRepo: _githubRepoController.text.isNotEmpty
-          ? _githubRepoController.text
-          : null,
-      liveLink:
-          _liveLinkController.text.isNotEmpty ? _liveLinkController.text : null,
-      tags: _tags,
-      imgUrl: _imageUrl,
-      ytUrl: _ytUrlController.text.isNotEmpty ? _ytUrlController.text : null,
-      documentationUrl: _documentationUrlController.text.isNotEmpty
-          ? _documentationUrlController.text
-          : null,
-      startDate: _startDate,
-      endDate: _endDate,
-      otherContributors: _contributors,
+  Future<void> _selectDate(BuildContext context, bool isStartDate) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: isStartDate
+          ? (_startDate ?? DateTime.now())
+          : (_endDate ?? DateTime.now()),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
     );
-
-    if (widget.projectId != null) {
-      // Update existing project
-      await FirebaseFirestore.instance
-          .collection('projects')
-          .doc(widget.projectId)
-          .update(project.toMap());
-    } else {
-      // Add new project
-      await FirebaseFirestore.instance
-          .collection('projects')
-          .add(project.toMap());
+    if (picked != null && picked != (isStartDate ? _startDate : _endDate)) {
+      setState(() {
+        if (isStartDate) {
+          _startDate = picked;
+        } else {
+          _endDate = picked;
+        }
+      });
     }
-    setState(() {
-      _isLoading = false;
-    });
-
-    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint(widget.project?.imgUrl);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.project == null ? 'Add Project' : 'Edit Project'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Form(
+          key: _formKey,
+          child: ListView(
             children: [
-              TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Project Name'),
-              ),
-              TextField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
-                maxLines: 3,
-              ),
-              TextField(
-                controller: _githubRepoController,
-                decoration: const InputDecoration(labelText: 'GitHub Repo'),
-              ),
-              TextField(
-                controller: _liveLinkController,
-                decoration: const InputDecoration(labelText: 'Live Link'),
-              ),
-              TextField(
-                controller: _ytUrlController,
-                decoration: const InputDecoration(labelText: 'YouTube URL'),
-              ),
-              TextField(
-                controller: _documentationUrlController,
-                decoration:
-                    const InputDecoration(labelText: 'Documentation URL'),
-              ),
-              SizedBox(height: 10),
-              _imageBytes != null
-                  ? Image.memory(_imageBytes!, height: 100)
-                  : const Text('No image selected'),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _selectImage,
-                child: const Text('Select Image'),
-              ),
-              widget.project != null
-                  ? CircleAvatar(
-                      backgroundImage: NetworkImage(widget.project!.imgUrl!),
-                    )
-                  : const Text('No image'),
-              SizedBox(height: 10),
-              Wrap(
-                spacing: 8.0,
-                children: _tags.map((tag) => Chip(label: Text(tag))).toList(),
-              ),
-              TextField(
-                decoration: const InputDecoration(labelText: 'Add Tag'),
-                onSubmitted: (value) {
-                  setState(() {
-                    if (value.isNotEmpty && !_tags.contains(value)) {
-                      _tags.add(value);
-                    }
-                  });
+              TextFormField(
+                initialValue: _name,
+                decoration: const InputDecoration(
+                  labelText: 'Project Name',
+                  ),style: const TextStyle(
+                    color: Colors.white,
+                  ),
+               
+                onSaved: (value) => _name = value,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a project name';
+                  }
+                  return null;
                 },
               ),
-              SizedBox(height: 10),
-              Text('Contributors:'),
-              Column(
-                children: _contributors.map((contributor) {
-                  final index = _contributors.indexOf(contributor);
-                  return ListTile(
-                    title: Text(contributor.name),
-                    subtitle: Text(contributor.linkedinProfileLink),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () => _removeContributor(index),
-                    ),
-                  );
-                }).toList(),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _contributorNameController,
-                      decoration:
-                          const InputDecoration(labelText: 'Contributor Name'),
-                    ),
+              TextFormField(
+                initialValue: _description,
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  ),style: const TextStyle(
+                    color: Colors.white,
                   ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      controller: _contributorLinkController,
+               
+                onSaved: (value) => _description = value,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a description';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                initialValue: _githubRepo,
+                decoration: const InputDecoration(
+                  labelText: 'GitHub Repository',
+                  ),style: const TextStyle(
+                    color: Colors.white,
+                  ),
+               
+                onSaved: (value) => _githubRepo = value,
+              ),
+              TextFormField(
+                initialValue: _liveLink,
+                decoration: const InputDecoration(
+                  labelText: 'Live Link',
+                  ),style: const TextStyle(
+                    color: Colors.white,
+                  ),
+               
+                onSaved: (value) => _liveLink = value,
+              ),
+              const SizedBox(height: 20),
+
+              // Start Date and End Date pickers
+              ListTile(
+                title: Text(
+                  'Start Date: ${_startDate != null ? _startDate.toString().split(' ')[0] : 'Select Date'}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: const Icon(Icons.calendar_today),
+                onTap: () => _selectDate(context, true),
+              ),
+              ListTile(
+                title: Text(
+                  'End Date: ${_endDate != null ? _endDate.toString().split(' ')[0] : 'Select Date'}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: const Icon(Icons.calendar_today),
+                onTap: () => _selectDate(context, false),
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Tags (comma separated)',
+                  ),style: const TextStyle(
+                    color: Colors.white,
+                  ),
+               
+                initialValue: _tags.join(', '),
+                onSaved: (value) {
+                  _tags = value!.split(',').map((e) => e.trim()).toList();
+                },
+              ),
+              const SizedBox(height: 20),
+              const Text('Image:'),
+              _imageFilePath == null && _imgUrl == null
+                  ? const Text(
+                      'No Image Selected',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                  : _imageFilePath != null
+                      ? Text(
+                          'Selected File: $_imageFilePath',
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        )
+                      : Image.network(_imgUrl!),
+              TextButton.icon(
+                icon: const Icon(Icons.image),
+                label: const Text('Pick Image'),
+                onPressed: _pickImage,
+              ),
+              const SizedBox(height: 20),
+
+              // Contributors section
+              const Text('Contributors:'),
+              ..._contributors.asMap().entries.map((entry) {
+                int index = entry.key;
+                Contributor contributor = entry.value;
+
+                return Column(
+                  key: ValueKey(contributor),
+                  children: [
+                    TextFormField(
+                      initialValue: contributor.name,
                       decoration: const InputDecoration(
-                          labelText: 'Contributor LinkedIn URL'),
+                        labelText: 'Contributor Name',
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onChanged: (value) => contributor.name = value,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a contributor name';
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                ],
-              ),
-              ElevatedButton(
+                    TextFormField(
+                      initialValue: contributor.linkedinProfileLink,
+                      decoration: const InputDecoration(
+                        labelText: 'LinkedIn Profile Link',
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onChanged: (value) =>
+                          contributor.linkedinProfileLink = value,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton.icon(
+                          icon: const Icon(Icons.delete),
+                          label: const Text('Remove'),
+                          onPressed: () => _removeContributor(index),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                );
+              }).toList(),
+              TextButton.icon(
+                icon: const Icon(Icons.add),
+                label: const Text('Add Contributor'),
                 onPressed: _addContributor,
-                child: const Text('Add Contributor'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _saveProject,
-                child: _isLoading
-                    ? CircularProgressIndicator()
-                    : Text(widget.project == null
-                        ? 'Add Project'
-                        : 'Update Project'),
+                child: Text(widget.project == null ? 'Add' : 'Update'),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    await _uploadImage();
+
+                    Project project = Project(
+                      name: _name!,
+                      description: _description!,
+                      githubRepo: _githubRepo,
+                      liveLink: _liveLink,
+                      tags: _tags,
+                      imgUrl: _imgUrl,
+                      ytUrl: _ytUrl,
+                      documentationUrl: _documentationUrl,
+                      startDate: _startDate,
+                      endDate: _endDate,
+                      otherContributors: _contributors,
+                    );
+
+                    if (widget.project == null) {
+                      await _firestoreService.addProject(project);
+                    } else {
+                      await _firestoreService.updateProject(
+                          widget.project!.id!, widget.project!);
+                    }
+                      if (!context.mounted) return;
+
+                    Navigator.pop(context);
+                  }
+                },
               ),
             ],
           ),
@@ -264,3 +316,4 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
     );
   }
 }
+

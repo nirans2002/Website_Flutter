@@ -1,81 +1,105 @@
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:niransnarayanan/data/experience.dart';
 import 'package:niransnarayanan/data/project.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
-import 'package:path/path.dart'; // For file name extraction
-import 'package:uuid/uuid.dart';
 
-class FirebaseMethodsProject {
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+import 'package:niransnarayanan/data/skill.dart';
 
-  // Add a new project
-  Future<void> addProject(Project newProject) async {
-    await FirebaseFirestore.instance
-        .collection('projects')
-        .add(newProject.toMap());
+class FirestoreService {
+  final CollectionReference projectCollection =
+      FirebaseFirestore.instance.collection('projects');
+
+  final CollectionReference experienceCollection =
+      FirebaseFirestore.instance.collection('experience');
+
+  final CollectionReference skillCollection =
+      FirebaseFirestore.instance.collection('skill');
+
+//  ------------------------Project ----------------------------------------
+  // Add a project
+  Future<void> addProject(Project project) {
+    return projectCollection.add(project.toMap());
   }
 
-  // Update an existing project
-  Future<void> editProject(String projectId, Project updatedProject) async {
-    await FirebaseFirestore.instance
-        .collection('projects')
-        .doc(projectId)
-        .update(updatedProject.toMap());
+  // Update a project
+  Future<void> updateProject(String docId, Project project) {
+    return projectCollection.doc(docId).update(project.toMap());
+  }
+
+  // Get all projects
+  Stream<List<Project>> getProjects() {
+    return projectCollection.snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => Project.fromFirestore(doc)).toList());
   }
 
   // Delete a project
-  Future<void> deleteProject(String projectId) async {
-    await FirebaseFirestore.instance
-        .collection('projects')
-        .doc(projectId)
-        .delete();
+  Future<void> deleteProject(String docId) {
+    return projectCollection.doc(docId).delete();
   }
 
-  // Fetch projects stream
-  Stream<QuerySnapshot> getProjectsStream() {
-    return FirebaseFirestore.instance.collection('projects').snapshots();
+  //  ------------------------experience----------------------------------------
+  // Add a Experience
+  Future<void> addExperience(Experience experience) {
+    return experienceCollection.add(experience.toMap());
   }
 
-  Future<String> uploadImageToStorage(Uint8List file) async {
-    Reference ref = _storage.ref().child('project_images');
-    String id = const Uuid().v1();
-    ref = ref.child(id);
-    UploadTask uploadTask =
-        ref.putData(file, SettableMetadata(contentType: 'image/jpeg'));
-
-    TaskSnapshot snap = await uploadTask;
-    String downloadUrl = await snap.ref.getDownloadURL();
-    return downloadUrl;
+  // Update a Experience
+  Future<void> updateExperience(String docId, Experience experience) {
+    return experienceCollection.doc(docId).update(experience.toMap());
   }
 
-  // final FirebaseStorage _storage = FirebaseStorage.instance;
+  // Get all Experience
+  Stream<List<Experience>> getExperience() {
+    return experienceCollection.snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => Experience.fromFirestore(doc)).toList());
+  }
 
-  // // Upload multiple images and return their URLs
-  // Future<List<String>> uploadImages(List<File> imageFiles) async {
-  //   List<String> downloadUrls = [];
+  // Delete a Experience
+  Future<void> deleteExperience(String docId) {
+    return experienceCollection.doc(docId).delete();
+  }
 
-  //   for (var imageFile in imageFiles) {
-  //     try {
-  //       String fileName = basename(imageFile.path); // Extract file name
-  //       Reference ref = _storage.ref().child('projects/images/$fileName');
+  //  ------------------------skill----------------------------------------
+  // Add a skill
+  Future<void> addSkill(Skill skill) {
+    return skillCollection.add(skill.toMap());
+  }
 
-  //       // Upload the image to Firebase Storage
-  //       UploadTask uploadTask = ref.putFile(imageFile);
+  // Get all skill
+  Stream<List<Skill>> getSkill() {
+    return skillCollection.snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => Skill.fromFirestore(doc)).toList());
+  }
 
-  //       // Get the image download URL after the upload is complete
-  //       TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
-  //       String downloadUrl = await snapshot.ref.getDownloadURL();
+  // Delete a Experience
+  Future<void> deleteSkill(String docId) {
+    return skillCollection.doc(docId).delete();
+  }
 
-  //       // Add the URL to the list
-  //       downloadUrls.add(downloadUrl);
-  //     } catch (e) {
-  //       debugPrint("Error uploading image: $e");
-  //     }
-  //   }
+  // Upload Image to Firebase Storage and get the URL
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  //   return downloadUrls;
-  // }
+  Future<String> uploadImageToStorage(String filePath) async {
+    try {
+      // Create a unique file name
+      String fileName = 'images/${DateTime.now().millisecondsSinceEpoch}';
+
+      // Create a reference to the storage location
+      Reference ref = _storage.ref(fileName);
+
+      // Upload the file
+      File file = File(filePath);
+      // ref.putData(file, SettableMetadata(contentType: 'image/jpeg'));
+      await ref.putFile(
+          file,
+          SettableMetadata(
+              contentType: 'image/jpeg')); // Use putFile for Windows
+      // Get the download URL
+      String downloadUrl = await ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      throw Exception('Error uploading image: $e');
+    }
+  }
 }

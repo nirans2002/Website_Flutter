@@ -1,7 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Project {
+  String? id;  // Add this line for storing document ID
+  final String name;
+  final String description;
+  final String? githubRepo;
+  final String? liveLink;
+  final List tags;
+  final String? imgUrl;
+  final String? ytUrl;
+  final String? documentationUrl;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final List<Contributor>? otherContributors;
+
   Project({
+    this.id,  // Include id in the constructor
     required this.name,
     required this.description,
     required this.tags,
@@ -15,19 +28,9 @@ class Project {
     this.otherContributors,
   });
 
-  final String name;
-  final String description;
-  final String? githubRepo;
-  final String? liveLink;
-  final List tags;
-  final String? imgUrl;
-  final String? ytUrl;
-  final String? documentationUrl;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final List<Contributor>? otherContributors;
   Project.fromFirestore(DocumentSnapshot doc)
-      : name = doc['name'],
+      : id = doc.id,  // Capture the document ID
+        name = doc['name'],
         description = doc['description'],
         githubRepo = doc['githubRepo'],
         liveLink = doc['liveLink'],
@@ -58,16 +61,16 @@ class Project {
   }
 }
 
+
 class Contributor {
-  final String name;
-  final String linkedinProfileLink;
+   String name;
+   String linkedinProfileLink;
 
   Contributor({
     required this.name,
     required this.linkedinProfileLink,
   });
 
-  // Factory constructor to create a Contributor from a map
   factory Contributor.fromMap(Map<String, dynamic> map) {
     return Contributor(
       name: map['name'],
@@ -75,7 +78,6 @@ class Contributor {
     );
   }
 
-  // Convert Contributor to map
   Map<String, dynamic> toMap() {
     return {
       'name': name,

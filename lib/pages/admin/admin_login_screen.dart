@@ -11,13 +11,16 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  Future<void> _login() async {
+  Future<void> _login(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+        if (!context.mounted) return;
+
       Navigator.pushReplacementNamed(context, '/dashboard');
+      // Navigator.of(context).pushReplacementNamed('/dashboard');
     } catch (e) {
       debugPrint('Login Failed: $e');
     }
@@ -47,7 +50,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _login,
+                onPressed: () {
+                  _login(context);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   side: const BorderSide(

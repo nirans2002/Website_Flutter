@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Experience {
+  String? id;
+  final String? description;
   final String title;
   final String? employmentType;
   final String companyName;
@@ -11,6 +13,8 @@ class Experience {
   final String location;
 
   Experience({
+    this.id,
+    this.description,
     required this.title,
     required this.employmentType,
     required this.companyName,
@@ -22,7 +26,9 @@ class Experience {
   });
 
   Experience.fromFirestore(DocumentSnapshot doc)
-      : title = doc['title'],
+      : id = doc.id,
+        title = doc['title'],
+        description = doc['description'],
         employmentType = doc['employmentType'],
         companyName = doc['companyName'],
         companyImgUrl = doc['companyImgUrl'],
@@ -34,6 +40,7 @@ class Experience {
   Map<String, dynamic> toMap() {
     return {
       'title': title,
+      'description': description,
       'employmentType': employmentType,
       'companyName': companyName,
       'companyImgUrl': companyImgUrl,
@@ -44,5 +51,3 @@ class Experience {
     };
   }
 }
-
-enum EmployeeType { fullTime, partTime, internship, freelance, selfEmployed }
