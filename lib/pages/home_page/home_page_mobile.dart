@@ -16,6 +16,7 @@ import 'package:niransnarayanan/data/mydata.dart';
 import 'package:niransnarayanan/data/project.dart';
 import 'package:niransnarayanan/data/skill.dart';
 import 'package:niransnarayanan/firebase/firebase_services.dart';
+import 'package:niransnarayanan/utils/keys.dart';
 import 'package:niransnarayanan/utils/responsive.dart';
 
 class HomePageMobile extends StatelessWidget {
@@ -45,12 +46,24 @@ class BodyTabletWidget extends StatelessWidget {
       child: Column(
         children: [
           // sections
-          const HeroSection(),
-          const AboutMeSection(),
-          ExperienceSection(),
-          SkillSection(),
-          ProjectSection(),
-          const ContactSection(),
+          HeroSection(
+            key: heroKey,
+          ),
+          AboutMeSection(
+            key: aboutKey,
+          ),
+          ExperienceSection(
+            key: expKey,
+          ),
+          SkillSection(
+            key: skillsKey,
+          ),
+          ProjectSection(
+            key: projectKey,
+          ),
+          ContactSection(
+            key: contactKey,
+          ),
           const FooterSection(),
         ],
       ),
@@ -148,7 +161,7 @@ class ContactSection extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: 150 * Responsive.paddingScaleFactor),
+              horizontal: 50 * Responsive.paddingScaleFactor),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,7 +179,7 @@ class ContactSection extends StatelessWidget {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
+                    const EdgeInsets.all(2.0 * Responsive.paddingScaleFactor),
                 child: Container(
                   decoration:
                       BoxDecoration(border: Border.all(color: Colors.white60)),
@@ -217,9 +230,9 @@ class AboutMeSection extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: 150 * Responsive.paddingScaleFactor),
+              horizontal: 50 * Responsive.paddingScaleFactor),
           child: Padding(
-            padding: const EdgeInsets.all(16.0 * Responsive.paddingScaleFactor),
+            padding: const EdgeInsets.all(10.0 * Responsive.paddingScaleFactor),
             child: Text(
               MyData.aboutmeText,
               style: const TextStyle(
@@ -251,7 +264,7 @@ class SkillSection extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: 150 * Responsive.paddingScaleFactor),
+              horizontal: 80 * Responsive.paddingScaleFactor),
           child: StreamBuilder<List<Skill>>(
               stream: _firestoreService.getSkill(),
               builder: (context, snapshot) {
@@ -295,7 +308,7 @@ class ProjectSection extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: 200 * Responsive.paddingScaleFactor),
+              horizontal: 50 * Responsive.paddingScaleFactor),
           child: StreamBuilder<List<Project>>(
               stream: _firestoreService.getProjects(),
               builder: (context, snapshot) {
@@ -338,7 +351,7 @@ class ExperienceSection extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: 200 * Responsive.paddingScaleFactor),
+              horizontal: 20 * Responsive.paddingScaleFactor),
           child: StreamBuilder<List<Experience>>(
               stream: _firestoreService.getExperience(),
               builder: (context, snapshot) {
