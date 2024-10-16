@@ -29,13 +29,13 @@ class HomePageDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customNavBar(context),
-      body: BodyDesktopWidget(),
+      body: const BodyDesktopWidget(),
     );
   }
 }
 
 class BodyDesktopWidget extends StatelessWidget {
-  BodyDesktopWidget({
+  const BodyDesktopWidget({
     super.key,
   });
 
@@ -45,13 +45,13 @@ class BodyDesktopWidget extends StatelessWidget {
       child: Column(
         children: [
           // sections
-          HeroSection(),
-          AboutMeSection(),
+          const HeroSection(),
+          const AboutMeSection(),
           ExperienceSection(),
           SkillSection(),
           ProjectSection(),
-          ContactSection(),
-          FooterSection(),
+          const ContactSection(),
+          const FooterSection(),
         ],
       ),
     );

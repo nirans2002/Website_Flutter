@@ -5,14 +5,15 @@ import 'package:niransnarayanan/firebase/firebase_services.dart';
 import 'package:file_picker/file_picker.dart';
 
 class AddEditExperienceScreen extends StatefulWidget {
-  final Experience? experience;
 
   const AddEditExperienceScreen({super.key, this.experience});
+  final Experience? experience;
 
+  
   @override
-  _AddEditExperienceScreenState createState() =>
-      _AddEditExperienceScreenState();
+  State<AddEditExperienceScreen> createState() => _AddEditExperienceScreenState();
 }
+
 
 class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
   final _formKey = GlobalKey<FormState>();
@@ -252,6 +253,8 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
                       await _firestoreService.updateExperience(
                           experience.id!, widget.experience!);
                     }
+                    if (!context.mounted) return;
+
                     Navigator.pop(context);
                   }
                 },

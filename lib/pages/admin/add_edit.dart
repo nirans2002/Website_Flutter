@@ -4,16 +4,15 @@ import 'package:niransnarayanan/firebase/firebase_services.dart';
 import 'package:file_picker/file_picker.dart';
 
 class AddEditProjectScreen extends StatefulWidget {
+  const AddEditProjectScreen({super.key, this.project});
   final Project? project;
 
-  const AddEditProjectScreen({super.key, this.project});
-
   @override
-  _AddEditProjectScreenState createState() => _AddEditProjectScreenState();
+  State<AddEditProjectScreen> createState() => _AddEditProjectScreenState();
 }
 
 class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
-  final _formKey = GlobalKey<FormState>();
+final _formKey = GlobalKey<FormState>();
   String? _name;
   String? _description;
   String? _githubRepo;
@@ -304,6 +303,8 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
                       await _firestoreService.updateProject(
                           widget.project!.id!, widget.project!);
                     }
+                      if (!context.mounted) return;
+
                     Navigator.pop(context);
                   }
                 },
@@ -315,3 +316,4 @@ class _AddEditProjectScreenState extends State<AddEditProjectScreen> {
     );
   }
 }
+

@@ -6,7 +6,7 @@ class AddSkillScreen extends StatefulWidget {
   const AddSkillScreen({super.key});
 
   @override
-  _AddSkillScreenState createState() => _AddSkillScreenState();
+  State<AddSkillScreen> createState() => _AddSkillScreenState();
 }
 
 class _AddSkillScreenState extends State<AddSkillScreen> {
@@ -54,6 +54,7 @@ class _AddSkillScreenState extends State<AddSkillScreen> {
 
                     Skill skill = Skill(skill: _skill!);
                     await _firestoreService.addSkill(skill);
+                    if (!context.mounted) return;
 
                     Navigator.pop(context);
                   }
