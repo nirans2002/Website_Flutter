@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-        if (!context.mounted) return;
+      if (!context.mounted) return;
 
       Navigator.pushReplacementNamed(context, '/dashboard');
       // Navigator.of(context).pushReplacementNamed('/dashboard');
@@ -28,8 +28,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    _emailController.text = "nirans2002@gmail.com";
-    _passwordController.text = "Parvanam@28322";
+    _emailController.text = "";
+    _passwordController.text = "";
     return Scaffold(
       body: Center(
         child: Padding(
