@@ -7,8 +7,13 @@ import 'package:niransnarayanan/components/footer.dart';
 import 'package:niransnarayanan/components/hero_photo.dart';
 import 'package:niransnarayanan/components/project_item_tile.dart';
 import 'package:niransnarayanan/components/section_heading.dart';
+import 'package:niransnarayanan/components/shimmer/skill_shimmer.dart';
 import 'package:niransnarayanan/components/skill_item_tile.dart';
+import 'package:niransnarayanan/data/experience.dart';
 import 'package:niransnarayanan/data/mydata.dart';
+import 'package:niransnarayanan/data/project.dart';
+import 'package:niransnarayanan/data/skill.dart';
+import 'package:niransnarayanan/firebase/firebase_services.dart';
 import 'package:niransnarayanan/utils/responsive.dart';
 
 import '../../components/contact_info_item.dart';
@@ -24,29 +29,29 @@ class HomePageDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customNavBar(context),
-      body: const BodyWidget(),
+      body: const BodyDesktopWidget(),
     );
   }
 }
 
-class BodyWidget extends StatelessWidget {
-  const BodyWidget({
+class BodyDesktopWidget extends StatelessWidget {
+  const BodyDesktopWidget({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         children: [
           // sections
-          HeroSection(),
-          AboutMeSection(),
+          const HeroSection(),
+          const AboutMeSection(),
           ExperienceSection(),
           SkillSection(),
           ProjectSection(),
-          ContactSection(),
-          FooterSection(),
+          const ContactSection(),
+          const FooterSection(),
         ],
       ),
     );
@@ -267,9 +272,10 @@ class HeroSection extends StatelessWidget {
 }
 
 class SkillSection extends StatelessWidget {
-  const SkillSection({
+  SkillSection({
     super.key,
   });
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -282,18 +288,27 @@ class SkillSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: 200 * Responsive.paddingScaleFactor),
-          child: MasonryGridView.count(
-            crossAxisCount: 4,
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 4,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: MyData.skills.length,
-            itemBuilder: (context, index) {
-              final skill = MyData.skills[index];
-              return SkillItemTile(skill: skill);
-            },
-          ),
+          child: StreamBuilder<List<Skill>>(
+              stream: _firestoreService.getSkill(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  // debugPrint("no data");
+                  return const SkillShimmer();
+                }
+                final skills = snapshot.data!;
+                return MasonryGridView.count(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: skills.length,
+                  itemBuilder: (context, index) {
+                    final skill = skills[index];
+                    return SkillItemTile(skill: skill.skill.toString());
+                  },
+                );
+              }),
         ),
       ],
     );
@@ -301,9 +316,10 @@ class SkillSection extends StatelessWidget {
 }
 
 class ProjectSection extends StatelessWidget {
-  const ProjectSection({
+  ProjectSection({
     super.key,
   });
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -316,18 +332,26 @@ class ProjectSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: 200 * Responsive.paddingScaleFactor),
-          child: MasonryGridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 4,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: MyData.projects.length,
-            itemBuilder: (context, index) {
-              final project = MyData.projects[index];
-              return ProjectItemTile(project: project);
-            },
-          ),
+          child: StreamBuilder<List<Project>>(
+              stream: _firestoreService.getProjects(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const ProjectShimmer();
+                }
+                final projects = snapshot.data!;
+                return MasonryGridView.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: projects.length,
+                  itemBuilder: (context, index) {
+                    final project = projects[index];
+                    return ProjectItemTile(project: project);
+                  },
+                );
+              }),
         ),
       ],
     );
@@ -335,9 +359,10 @@ class ProjectSection extends StatelessWidget {
 }
 
 class ExperienceSection extends StatelessWidget {
-  const ExperienceSection({
+  ExperienceSection({
     super.key,
   });
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -350,15 +375,23 @@ class ExperienceSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: 200 * Responsive.paddingScaleFactor),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: MyData.experienceList.length,
-            itemBuilder: (context, index) {
-              final experience = MyData.experienceList[index];
-              return ExperienceTile(experience: experience);
-            },
-          ),
+          child: StreamBuilder<List<Experience>>(
+              stream: _firestoreService.getExperience(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final experiences = snapshot.data!;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: experiences.length,
+                  itemBuilder: (context, index) {
+                    final experience = experiences[index];
+                    return ExperienceTile(experience: experience);
+                  },
+                );
+              }),
         ),
       ],
     );

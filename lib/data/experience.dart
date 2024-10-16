@@ -1,5 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Experience {
+  String? id;
+  final String? description;
   final String title;
   final String? employmentType;
   final String companyName;
@@ -10,6 +13,8 @@ class Experience {
   final String location;
 
   Experience({
+    this.id,
+    this.description,
     required this.title,
     required this.employmentType,
     required this.companyName,
@@ -19,6 +24,30 @@ class Experience {
     this.enddate,
     required this.location,
   });
-}
 
-enum EmployeeType { fullTime, partTime, internship, freelance, selfEmployed }
+  Experience.fromFirestore(DocumentSnapshot doc)
+      : id = doc.id,
+        title = doc['title'],
+        description = doc['description'],
+        employmentType = doc['employmentType'],
+        companyName = doc['companyName'],
+        companyImgUrl = doc['companyImgUrl'],
+        isCurrentlyWorking = doc['isCurrentlyWorking'],
+        startdate = (doc['startdate'] as Timestamp?)?.toDate(),
+        enddate = (doc['enddate'] as Timestamp?)?.toDate(),
+        location = doc['location'];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'description': description,
+      'employmentType': employmentType,
+      'companyName': companyName,
+      'companyImgUrl': companyImgUrl,
+      'isCurrentlyWorking': isCurrentlyWorking,
+      'startdate': startdate,
+      'enddate': enddate,
+      'location': location,
+    };
+  }
+}
